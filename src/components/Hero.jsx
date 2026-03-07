@@ -1,121 +1,135 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import { ArrowUpRight, ShieldCheck, Zap, Globe } from 'lucide-react';
 
 export default function Hero() {
-    const containerVars = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.15, delayChildren: 0.2 }
-        }
-    };
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end start"]
+    });
 
-    const itemVars = {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.215, 0.61, 0.355, 1.0] } }
-    };
+    const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+    const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+    const stats = [
+        { label: 'Uptime SLA', value: '99.98%', icon: <Zap size={18} className="text-crimson" /> },
+        { label: 'Carrier Neutral', value: '15+ ISPs', icon: <Globe size={18} className="text-crimson" /> },
+        { label: 'Security Tier', value: 'Tier III+', icon: <ShieldCheck size={18} className="text-crimson" /> },
+    ];
 
     return (
-        <section className="relative min-h-[95vh] flex items-center justify-center pt-16 overflow-hidden bg-white">
-            {/* Grid pattern background */}
-            <div className="absolute inset-0 hero-grid-pattern opacity-60" />
-
-            {/* Subtle gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white/90" />
-
-            {/* Decorative elements */}
-            <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 0.5, scale: 1 }}
-                transition={{ duration: 2, ease: "easeOut" }}
-                className="absolute top-20 right-[10%] w-72 h-72 rounded-full border border-crimson/10"
-            />
-            <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 0.05, x: 0 }}
-                transition={{ duration: 1.5, delay: 0.5 }}
-                className="absolute bottom-20 left-[5%] w-96 h-96 rounded-full bg-crimson"
-            />
-
-            <motion.div
-                variants={containerVars}
-                initial="hidden"
-                animate="visible"
-                className="relative z-10 max-w-5xl mx-auto px-6 text-center py-20"
-            >
-                {/* Badge */}
+        <section
+            ref={containerRef}
+            className="relative min-h-screen pt-32 pb-20 overflow-hidden bg-white"
+        >
+            {/* Background Grid & Image */}
+            <div className="absolute inset-0 z-0 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:40px_40px] opacity-30" />
                 <motion.div
-                    variants={itemVars}
-                    className="inline-flex items-center gap-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full px-4 py-1.5 mb-8 shadow-sm"
+                    style={{ y, opacity }}
+                    className="absolute -right-20 top-40 w-[60%] h-[70%] hidden lg:block"
                 >
-                    <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-crimson opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-crimson"></span>
-                    </span>
-                    <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-mid">
-                        Exclusive Data Centre Access · Nairobi
-                    </span>
+                    <img
+                        src="/hero-dc.png"
+                        alt="Data Center Ecosystem"
+                        className="w-full h-full object-cover rounded-tl-[100px] border border-gray-100 shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent" />
                 </motion.div>
+            </div>
 
-                {/* Headline */}
-                <motion.h1
-                    variants={itemVars}
-                    className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold leading-[0.9] tracking-tighter text-ink mb-8"
-                >
-                    Walk the Floor.<br />
-                    <span className="text-crimson">See the Future.</span>
-                </motion.h1>
-
-                {/* Subtext */}
-                <motion.p
-                    variants={itemVars}
-                    className="max-w-2xl mx-auto text-base md:text-lg lg:text-xl text-mid leading-relaxed mb-12 font-medium"
-                >
-                    Step inside Africa&apos;s fastest-growing data centre ecosystem. Observe the racks,
-                    connect with engineers, and understand why institutions are placing capital here —
-                    before the next wave.
-                </motion.p>
-
-                {/* CTAs */}
-                <motion.div
-                    variants={itemVars}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-4"
-                >
-                    <a
-                        href="#book"
-                        className="group relative bg-crimson text-white font-bold text-sm uppercase tracking-widest px-10 py-5 overflow-hidden transition-all hover:shadow-[0_0_40px_rgba(196,18,48,0.3)]"
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+                <div className="max-w-3xl">
+                    {/* Status Badge */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 px-4 py-1.5 rounded-full mb-8 shadow-sm"
                     >
-                        <span className="relative z-10 flex items-center gap-2">
-                            Reserve Your Spot <span className="group-hover:translate-x-1 transition-transform">→</span>
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-crimson opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-crimson"></span>
                         </span>
-                        <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                    </a>
-                    <a
-                        href="#tours"
-                        className="border-2 border-ink text-ink font-bold text-sm uppercase tracking-widest px-10 py-5 hover:bg-ink hover:text-white transition-all duration-300"
-                    >
-                        View Tour Dates
-                    </a>
-                </motion.div>
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-ink">
+                            Exclusive Data Centre Access · Nairobi
+                        </span>
+                    </motion.div>
 
-                {/* Stats row */}
-                <motion.div
-                    variants={itemVars}
-                    className="mt-20 grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-4xl mx-auto border-t border-gray-100 pt-12"
-                >
-                    {[
-                        { num: '5,000+', label: 'Available Racks' },
-                        { num: '99.97%', label: 'Uptime SLA' },
-                        { num: '3', label: 'Facilities' },
-                        { num: '$100', label: 'From / 1U' },
-                    ].map((stat) => (
-                        <div key={stat.label} className="text-center group">
-                            <div className="text-2xl md:text-4xl font-extrabold text-ink transition-transform group-hover:scale-110 duration-300">{stat.num}</div>
-                            <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-muted mt-2 border-t border-gray-50 pt-2 inline-block">
-                                {stat.label}
+                    {/* Headline */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                    >
+                        <h1 className="text-5xl md:text-8xl font-black text-ink mb-8 leading-[0.9] tracking-tighter">
+                            Walk the Floor.<br />
+                            <span className="text-crimson italic">See the Future.</span>
+                        </h1>
+                    </motion.div>
+
+                    {/* Subtext */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                        className="text-lg md:text-2xl text-mid mb-12 max-w-xl font-medium leading-relaxed"
+                    >
+                        Observe the racks, connect with engineers, and understand why global institutions
+                        are placing capital here — before the next wave hits.
+                    </motion.p>
+
+                    {/* CTAs */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                        className="flex flex-col sm:flex-row items-center gap-6"
+                    >
+                        <a
+                            href="#book"
+                            className="w-full sm:w-auto bg-ink text-white px-10 py-5 font-black uppercase tracking-widest text-[10px] hover:bg-crimson transition-all hover:-translate-y-1 shadow-xl hover:shadow-crimson/20 flex items-center justify-center gap-2"
+                        >
+                            Book Your Spot <ArrowUpRight size={16} />
+                        </a>
+                        <a
+                            href="#why"
+                            className="w-full sm:w-auto bg-white text-ink border border-gray-100 px-10 py-5 font-black uppercase tracking-widest text-[10px] hover:border-crimson transition-all"
+                        >
+                            View Why Tour
+                        </a>
+                    </motion.div>
+
+                    {/* Stats Bar */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1, delay: 0.6 }}
+                        className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12"
+                    >
+                        {stats.map((stat, i) => (
+                            <div key={i} className="flex items-center gap-4 group">
+                                <div className="w-10 h-10 flex items-center justify-center bg-gray-50 border border-transparent group-hover:border-crimson/50 rounded-sm transition-all duration-300">
+                                    {stat.icon}
+                                </div>
+                                <div>
+                                    <div className="text-xl font-black text-ink tracking-tight">{stat.value}</div>
+                                    <div className="text-[10px] font-bold text-muted uppercase tracking-widest">{stat.label}</div>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </div>
+
+            {/* Connectivity Visualization (Bottom Right) */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 2 }}
+                className="absolute bottom-0 right-0 w-1/3 h-1/3 opacity-20 pointer-events-none"
+            >
+                <img src="/connectivity.png" alt="" className="w-full h-full object-contain mix-blend-multiply grayscale" />
             </motion.div>
         </section>
     );
