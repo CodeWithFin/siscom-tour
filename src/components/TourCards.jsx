@@ -10,19 +10,32 @@ const tours = [
         month: 'MAR',
         year: '2026',
         time: '9:00 AM',
-        facility: 'IX Africa — NBO1 Campus',
-        location: 'KAREN, NAIROBI',
-        focus: 'INVESTOR FOCUS',
+        facility: 'PAIX Nairobi — NBO1 Campus',
+        location: 'KASARANI, NAIROBI',
+        focus: 'INDIVIDUAL ACCESS',
         duration: '3 HOURS',
-        availability: '7 SPOTS LEFT',
+        availability: '5 SPOTS LEFT',
         isLimited: false
     },
     {
         id: '02',
-        day: '28',
-        month: 'MAR',
+        day: '11',
+        month: 'APR',
         year: '2026',
         time: '10:00 AM',
+        facility: 'IX Africa — NBO1 Campus',
+        location: 'KAREN, NAIROBI',
+        focus: 'INVESTOR FOCUS',
+        duration: '3.5 HOURS',
+        availability: '12 SPOTS LEFT',
+        isLimited: false
+    },
+    {
+        id: '03',
+        day: '09',
+        month: 'MAY',
+        year: '2026',
+        time: '9:00 AM',
         facility: 'iColo — NBO2 Campus',
         location: 'WESTLANDS, NAIROBI',
         focus: 'SME COLOCATION',
@@ -31,29 +44,16 @@ const tours = [
         isLimited: true
     },
     {
-        id: '03',
-        day: '10',
-        month: 'APR',
-        year: '2026',
-        time: '9:00 AM',
-        facility: 'IX Africa — NBO1 Campus',
-        location: 'KAREN, NAIROBI',
-        focus: 'INVESTOR FOCUS',
-        duration: '3 HOURS',
-        availability: '10 SPOTS LEFT',
-        isLimited: false
-    },
-    {
         id: '04',
-        day: '22',
-        month: 'APR',
+        day: '23',
+        month: 'MAY',
         year: '2026',
         time: '2:00 PM',
         facility: 'ADC — NBO1 Campus',
         location: 'SAMEER PARK, NAIROBI',
-        focus: 'ENTERPRISE ONLY',
+        focus: 'INDIVIDUAL ACCESS',
         duration: '2 HOURS',
-        availability: '5 SPOTS LEFT',
+        availability: '8 SPOTS LEFT',
         isLimited: false
     }
 ];
@@ -62,10 +62,9 @@ export default function TourCards() {
     const router = useRouter();
 
     const handleBookTour = (tour) => {
-        const isInvestor = tour.focus.includes('INVESTOR');
         const params = new URLSearchParams({
-            ticket: isInvestor ? 'individual' : 'corporate',
-            amount: isInvestor ? '2600' : '26000',
+            ticket: 'individual',
+            amount: '2600',
             quantity: '1'
         });
         router.push(`/checkout?${params.toString()}`);

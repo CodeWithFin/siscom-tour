@@ -39,7 +39,6 @@ export default function Checkout() {
     const urlClubId = searchParams.get('clubId') || '';
 
     // State for checkout - verbatim from user snippet
-    const [ticketType, setTicketType] = useState(urlTicketType);
     const [quantity, setQuantity] = useState(urlQuantity);
     const [totalAmount, setTotalAmount] = useState(urlAmount);
     const [name, setName] = useState("");
@@ -53,15 +52,10 @@ export default function Checkout() {
     const [showInterests, setShowInterests] = useState(false);
     const dropdownRef = useRef(null);
 
-    // Calculate unit price and total
-    const getUnitPrice = () => {
-        return ticketType === 'individual' ? 2600 : 26000;
-    };
-
-    // Update total when quantity or other factors change
+    // Update total when quantity changes
     useEffect(() => {
-        setTotalAmount(getUnitPrice() * quantity);
-    }, [ticketType, quantity]);
+        setTotalAmount(2600 * quantity);
+    }, [quantity]);
 
     // Poll payment status - verbatim from user snippet
     useEffect(() => {
@@ -123,8 +117,8 @@ export default function Checkout() {
             name,
             interests,
             amount: totalAmount,
-            eventType: ticketType === 'individual' ? '2600' : '26000',
-            ticketType,
+            eventType: '2600',
+            ticketType: 'individual',
             quantity
         });
 
@@ -160,7 +154,7 @@ export default function Checkout() {
                                 DC Tour Checkout
                             </h1>
                             <p className="text-white/80 text-[10px] mt-0.5 font-medium tracking-wide">
-                                {ticketType === 'individual' ? 'Individual Access' : 'Corporate Package'}
+                                Individual Access
                             </p>
                         </div>
 
@@ -173,19 +167,9 @@ export default function Checkout() {
                                     <div className="flex justify-between">
                                         <span>Ticket Type:</span>
                                         <span className="font-medium text-right">
-                                            {ticketType === 'individual' ? 'Individual Ticket' : 'Corporate & SME Package'}
+                                            Individual Ticket
                                         </span>
                                     </div>
-                                    {ticketType === 'corporate' && (
-                                        <div className="bg-crimson/5 rounded p-1.5 mt-1 border border-crimson/10">
-                                            <p className="text-[10px] text-crimson font-bold uppercase mb-0.5 italic">Corporate Benefits Included:</p>
-                                            <ul className="text-[10px] space-y-0.5 text-ink/70 list-disc list-inside">
-                                                <li>Group Access (up to 5 people)</li>
-                                                <li>Exclusive Networking Session</li>
-                                                <li>Priority DC Consultation</li>
-                                            </ul>
-                                        </div>
-                                    )}
                                     <div className="flex justify-between items-center">
                                         <span>Quantity:</span>
                                         <div className="flex items-center gap-2">
@@ -206,7 +190,7 @@ export default function Checkout() {
                                     </div>
                                     <div className="flex justify-between">
                                         <span>Unit Price:</span>
-                                        <span>KES {getUnitPrice().toLocaleString()}</span>
+                                        <span>KES 2,600</span>
                                     </div>
                                     <div className="border-t pt-1 flex justify-between font-bold text-sm">
                                         <span>Total:</span>
