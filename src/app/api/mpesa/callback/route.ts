@@ -56,6 +56,35 @@ export async function POST(request: NextRequest) {
                     await sms.sendSMS(finalPhone, message);
                     console.log(`Confirmation SMS sent to ${finalPhone}: ${message}`);
                 }
+
+                // Record to Google Sheets
+                const googleSheetUrl = process.env.GOOGLE_SHEET_URL;
+                if (googleSheetUrl) {
+                    try {
+                        const payload = {
+                            timestamp: new Date().toISOString(),
+                            name: existingStatus.name || 'N/A',
+                            email: existingStatus.email || 'N/A',
+                            phoneNumber: parsedCallback.phoneNumber || existingStatus.phoneNumber || 'N/A',
+                            amount: parsedCallback.amount,
+                            mpesaReceipt: parsedCallback.mpesaReceiptNumber,
+                            ticketType: existingStatus.ticketType || 'individual',
+                            quantity: existingStatus.quantity || 1,
+                            status: 'success',
+                            checkoutRequestId: parsedCallback.checkoutRequestId
+                        };
+
+                        await fetch(googleSheetUrl, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        console.log('Payment recorded to Google Sheets');
+                    } catch (sheetError) {
+                        console.error('Failed to record to Google Sheets:', sheetError);
+                    }
+                }
             } catch (error) {
                 console.error('Failed to update status and send SMS:', error);
             }
@@ -88,6 +117,35 @@ export async function POST(request: NextRequest) {
                     const finalPhone = (parsedCallback.phoneNumber || existingStatus.phoneNumber).toString();
                     const failureMessage = sms.generatePaymentFailedMessage();
                     await sms.sendSMS(finalPhone, failureMessage);
+                }
+
+                // Record to Google Sheets (Failed attempt)
+                const googleSheetUrl = process.env.GOOGLE_SHEET_URL;
+                if (googleSheetUrl) {
+                    try {
+                        const payload = {
+                            timestamp: new Date().toISOString(),
+                            name: existingStatus.name || 'N/A',
+                            email: existingStatus.email || 'N/A',
+                            phoneNumber: parsedCallback.phoneNumber || existingStatus.phoneNumber || 'N/A',
+                            amount: existingStatus.amount || 'N/A',
+                            mpesaReceipt: 'FAILED',
+                            ticketType: existingStatus.ticketType || 'individual',
+                            quantity: existingStatus.quantity || 1,
+                            status: 'failed',
+                            checkoutRequestId: parsedCallback.checkoutRequestId,
+                            failureReason: parsedCallback.message || 'Unknown'
+                        };
+
+                        await fetch(googleSheetUrl, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                    } catch (sheetError) {
+                        console.error('Failed to record failure to Google Sheets:', sheetError);
+                    }
                 }
             } catch (error) {
                 console.error('Failed to update failure status:', error);

@@ -156,10 +156,12 @@ export default function Checkout() {
                     <div className="bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.25)] border border-gray-100 overflow-hidden">
                         {/* Header */}
                         <div className="bg-crimson text-white text-center py-6">
-                            <h1 className="text-2xl font-bold">
-                                {ticketType === 'individual' ? 'Individual Ticket' : 'Corporate Package'} Checkout
+                            <h1 className="text-2xl font-bold uppercase tracking-tight">
+                                DC Tour Checkout
                             </h1>
-                            <p className="text-white/80 mt-2 font-medium">Complete your purchase</p>
+                            <p className="text-white/80 mt-1 font-medium tracking-wide">
+                                {ticketType === 'individual' ? 'Individual Access' : 'Corporate Package'}
+                            </p>
                         </div>
 
                         {/* Form */}
