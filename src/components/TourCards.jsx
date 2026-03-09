@@ -69,7 +69,7 @@ export default function TourCards() {
     };
 
     return (
-        <section id="tours" className="py-24 bg-[#F9F9F7] relative border-y border-gray-100/50">
+        <section id="tours" className="py-24 bg-white relative border-y border-gray-100">
             <div className="max-w-7xl mx-auto px-6">
                 {/* Header Area */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -183,7 +183,7 @@ export default function TourCards() {
                                 <motion.button
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => handleSelectTour(tour)}
-                                    className="flex-1 md:flex-none px-6 py-4 bg-ink text-white text-[10px] font-black uppercase tracking-widest hover:bg-crimson transition-all flex items-center justify-between gap-6 min-w-[180px]"
+                                    className="flex-1 md:flex-none px-6 py-4 bg-crimson text-white text-[10px] font-black uppercase tracking-widest hover:bg-crimson-light transition-all flex items-center justify-between gap-6 min-w-[180px] shadow-lg shadow-crimson/10"
                                 >
                                     Reserve Spot <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                                 </motion.button>

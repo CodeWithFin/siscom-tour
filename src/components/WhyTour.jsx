@@ -66,9 +66,9 @@ export default function WhyTour() {
                             className="absolute inset-0 w-full h-full object-cover rounded-sm shadow-2xl border-4 border-white"
                         />
                         {/* Absolute Overlay Badge */}
-                        <div className="absolute -bottom-10 -right-10 bg-ink text-white p-8 rounded-sm shadow-2xl max-w-xs hidden sm:block">
+                        <div className="absolute -bottom-10 -right-10 bg-white border border-gray-100 text-ink p-8 rounded-sm shadow-2xl max-w-xs hidden sm:block">
                             <div className="text-3xl font-black mb-2 tracking-tighter">Tier III+ Certified</div>
-                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-loose">
+                            <p className="text-[10px] font-bold text-mid uppercase tracking-widest leading-loose">
                                 Facility standards compliant with international security protocols and environmental controls.
                             </p>
                         </div>

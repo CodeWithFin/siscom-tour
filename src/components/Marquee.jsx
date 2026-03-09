@@ -14,12 +14,12 @@ export default function Marquee() {
     const doubled = [...items, ...items, ...items, ...items];
 
     return (
-        <div className="relative py-4 overflow-hidden select-none bg-ink text-white">
+        <div className="relative py-4 overflow-hidden select-none bg-white text-ink border-y border-gray-100">
             <div className="flex animate-marquee-scroll whitespace-nowrap">
                 {doubled.map((item, i) => (
                     <span
                         key={i}
-                        className={`inline-flex items-center gap-6 mx-16 text-[9px] font-black uppercase tracking-[0.4em] ${item.accent ? 'text-crimson' : 'text-gray-400'
+                        className={`inline-flex items-center gap-6 mx-16 text-[9px] font-black uppercase tracking-[0.4em] ${item.accent ? 'text-crimson' : 'text-mid'
                             }`}
                     >
                         <div className="w-1 h-1 bg-current opacity-30" />

@@ -60,7 +60,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.4 }}
                         href="#book"
-                        className="group flex items-center gap-2 bg-ink text-white text-[10px] font-black tracking-[0.1em] uppercase px-6 py-3 hover:bg-crimson transition-all hover:-translate-y-0.5"
+                        className="group flex items-center gap-2 bg-crimson text-white text-[10px] font-black tracking-[0.1em] uppercase px-6 py-3 hover:bg-crimson-light transition-all hover:-translate-y-0.5 shadow-lg shadow-crimson/10"
                     >
                         Book a Tour
                         <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -107,7 +107,7 @@ export default function Navbar() {
                             transition={{ delay: 0.4 }}
                             href="#book"
                             onClick={() => setMenuOpen(false)}
-                            className="block bg-ink text-white text-center text-sm font-black uppercase tracking-widest px-5 py-5 hover:bg-crimson transition-all"
+                            className="block bg-crimson text-white text-center text-sm font-black uppercase tracking-widest px-5 py-5 hover:bg-crimson-light transition-all"
                         >
                             Book Your Tour Today
                         </motion.a>

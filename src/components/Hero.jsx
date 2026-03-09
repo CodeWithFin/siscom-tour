@@ -88,7 +88,7 @@ export default function Hero() {
                     >
                         <a
                             href="#book"
-                            className="w-full sm:w-auto bg-ink text-white px-10 py-5 font-black uppercase tracking-widest text-[10px] hover:bg-crimson transition-all hover:-translate-y-1 shadow-xl hover:shadow-crimson/20 flex items-center justify-center gap-2"
+                            className="w-full sm:w-auto bg-crimson text-white px-10 py-5 font-black uppercase tracking-widest text-[10px] hover:bg-crimson-light transition-all hover:-translate-y-1 shadow-xl shadow-crimson/20 flex items-center justify-center gap-2"
                         >
                             Book Your Spot <ArrowUpRight size={16} />
                         </a>
