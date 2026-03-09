@@ -1,191 +1,217 @@
 import { motion } from 'framer-motion';
-import { Share2, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const tours = [
     {
         id: '01',
         day: '14',
-        monthYear: 'MAR 2026',
-        time: '9 AM',
+        month: 'MAR',
+        year: '2026',
+        time: '9:00 AM',
         facility: 'IX Africa — NBO1 Campus',
         location: 'KAREN, NAIROBI',
-        duration: '3-HOUR SESSION',
-        status: 'OPEN',
         focus: 'INVESTOR FOCUS',
-        spotsLeft: 7,
-        totalSpots: 20,
+        duration: '3 HOURS',
+        availability: '7 SPOTS LEFT',
+        isLimited: false
     },
     {
         id: '02',
         day: '28',
-        monthYear: 'MAR 2026',
-        time: '10 AM',
+        month: 'MAR',
+        year: '2026',
+        time: '10:00 AM',
         facility: 'iColo — NBO2 Campus',
         location: 'WESTLANDS, NAIROBI',
-        duration: '2.5-HOUR SESSION',
-        status: 'LIMITED',
-        statusLabel: '2 SPOTS LEFT',
         focus: 'SME COLOCATION',
-        spotsLeft: 2,
-        totalSpots: 20,
+        duration: '2.5 HOURS',
+        availability: '2 SPOTS LEFT',
+        isLimited: true
     },
     {
         id: '03',
         day: '10',
-        monthYear: 'APR 2026',
-        time: '9 AM',
+        month: 'APR',
+        year: '2026',
+        time: '9:00 AM',
         facility: 'IX Africa — NBO1 Campus',
         location: 'KAREN, NAIROBI',
-        duration: '3-HOUR SESSION',
-        status: 'OPEN',
         focus: 'INVESTOR FOCUS',
-        spotsLeft: 10,
-        totalSpots: 20,
+        duration: '3 HOURS',
+        availability: '10 SPOTS LEFT',
+        isLimited: false
     },
     {
         id: '04',
         day: '22',
-        monthYear: 'APR 2026',
-        time: '2 PM',
+        month: 'APR',
+        year: '2026',
+        time: '2:00 PM',
         facility: 'ADC — NBO1 Campus',
         location: 'SAMEER PARK, NAIROBI',
-        duration: '2-HOUR SESSION',
-        status: 'OPEN',
         focus: 'ENTERPRISE ONLY',
-        spotsLeft: 5,
-        totalSpots: 15,
+        duration: '2 HOURS',
+        availability: '5 SPOTS LEFT',
+        isLimited: false
     }
 ];
 
 export default function TourCards() {
     const handleBookTour = (tour) => {
-        // Redirection logic for checkout
-        console.log(`Booking tour: ${tour.facility}`);
         window.location.href = '/checkout';
     };
 
     return (
-        <section id="tours" className="py-24 bg-white relative border-y border-gray-100">
-            <div className="max-w-7xl mx-auto px-6">
-                {/* Header Area */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-                    <div>
-                        <motion.span
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            className="text-[10px] font-black uppercase tracking-[0.4em] text-crimson mb-4 block"
-                        >
-                            Scheduled Sessions
-                        </motion.span>
-                        <motion.h2
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            className="text-5xl md:text-8xl font-black text-ink tracking-tight"
-                        >
-                            Upcoming Tours
-                        </motion.h2>
-                    </div>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        className="text-mid/60 italic text-lg"
-                    >
-                        4 tours · March — April 2026
-                    </motion.div>
+        <section id="tours" className="py-24 bg-white">
+            <div className="max-w-screen-2xl mx-auto px-6">
+                <div className="mb-12">
+                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-crimson mb-2 block">
+                        Infrastructure Access
+                    </span>
+                    <h2 className="text-3xl font-black text-ink tracking-tight uppercase">
+                        Book a Data Center Hangout Tour
+                    </h2>
+                    <p className="mt-4 text-[15px] font-medium text-ink/60 max-w-2xl leading-relaxed">
+                        Tour Africa's most advanced data center infrastructure. See where digital economies are built — and discover how to own a piece of it.
+                    </p>
                 </div>
 
-                {/* List Container */}
-                <div className="border-t border-gray-200">
+                {/* Desktop Table View (Hidden on mobile) */}
+                <div className="hidden lg:block overflow-x-auto overflow-y-hidden">
+                    <div className="min-w-[1200px] border border-gray-100 rounded-lg overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white">
+                        {/* Table Header */}
+                        <div className="bg-ink text-white flex items-center px-12 py-6 text-[11px] font-black uppercase tracking-[0.25em]">
+                            <div className="w-[18%]">Session / Time</div>
+                            <div className="w-[25%]">Infrastructure Campus</div>
+                            <div className="w-[18%]">Location</div>
+                            <div className="w-[14%]">Focus Group</div>
+                            <div className="w-[10%]">Availability</div>
+                            <div className="w-[15%] text-right pr-16">Action</div>
+                        </div>
+
+                        {/* Table Body */}
+                        <div className="divide-y divide-gray-100">
+                            {tours.map((tour, i) => (
+                                <motion.div
+                                    key={tour.id}
+                                    initial={{ opacity: 0, y: 15 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.1, duration: 0.5 }}
+                                    className="flex items-center px-12 py-12 hover:bg-gray-50/50 transition-all duration-300 group"
+                                >
+                                    {/* Column 1: Date/Time */}
+                                    <div className="w-[18%]">
+                                        <div className="text-xl font-black text-ink tracking-tight mb-1.5">{tour.day} {tour.month}</div>
+                                        <div className="text-[11px] text-ink/65 font-medium uppercase tracking-widest">
+                                            {tour.year} · {tour.time}
+                                        </div>
+                                    </div>
+
+                                    {/* Column 2: Facility */}
+                                    <div className="w-[25%] pr-10">
+                                        <div className="text-[17px] font-black text-ink group-hover:text-crimson transition-colors mb-1.5">
+                                            {tour.facility}
+                                        </div>
+                                        <div className="text-[11px] text-ink/65 font-semibold uppercase tracking-[0.12em]">
+                                            {tour.duration} SECURITY ACCESS
+                                        </div>
+                                    </div>
+
+                                    {/* Column 3: Location */}
+                                    <div className="w-[18%]">
+                                        <div className="text-sm font-bold text-ink uppercase tracking-wide">
+                                            {tour.location}
+                                        </div>
+                                    </div>
+
+                                    {/* Column 4: Focus */}
+                                    <div className="w-[14%]">
+                                        <div className="text-[11px] font-bold text-ink/65 uppercase tracking-wide">
+                                            {tour.focus}
+                                        </div>
+                                    </div>
+
+                                    {/* Column 5: Availability */}
+                                    <div className="w-[10%]">
+                                        <div className={`text-sm font-black tracking-tight ${tour.isLimited ? 'text-orange-600' : 'text-ink'}`}>
+                                            {tour.availability}
+                                        </div>
+                                    </div>
+
+                                    {/* Column 6: Action */}
+                                    <div className="w-[15%] text-right pr-16">
+                                        <button
+                                            onClick={() => handleBookTour(tour)}
+                                            className="bg-crimson text-white text-[10px] font-black uppercase tracking-[0.15em] px-8 py-4 rounded-sm hover:bg-crimson-light transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-md shadow-crimson/5 hover:translate-x-1"
+                                        >
+                                            Book tour <ArrowRight size={14} />
+                                        </button>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Mobile View (Stacked Cards) */}
+                <div className="lg:hidden space-y-6">
                     {tours.map((tour, i) => (
                         <motion.div
-                            key={tour.id}
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ delay: i * 0.1, duration: 0.8 }}
-                            whileHover={{ backgroundColor: "rgba(255, 255, 255, 1)" }}
-                            className="group relative flex flex-col md:flex-row items-center justify-between border-b border-gray-200 py-10 px-8 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.04)]"
+                            key={`mobile-${tour.id}`}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1 }}
+                            className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
                         >
-                            {/* Active/Hover Indicator Line */}
-                            <motion.div
-                                initial={{ height: 0 }}
-                                whileInView={{ height: "70%" }}
-                                transition={{ duration: 1, delay: i * 0.2 }}
-                                className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 bg-crimson transition-opacity duration-300 ${tour.id === '03' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
-                            />
-
-                            {/* Column 1: Index */}
-                            <div className="hidden lg:block w-20 text-[10px] font-black transition-colors duration-500 text-mid/30 group-hover:text-crimson/40">
-                                {tour.id}
-                            </div>
-
-                            {/* Column 2: Date */}
-                            <div className="flex items-center gap-6 w-full md:w-48 mb-6 md:mb-0">
-                                <span className="text-5xl md:text-6xl font-black text-ink tracking-tighter group-hover:text-crimson transition-colors duration-500">
-                                    {tour.day}
-                                </span>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] font-black text-mid/80">{tour.monthYear}</span>
-                                    <span className="text-[10px] font-black text-mid/40">— {tour.time}</span>
-                                </div>
-                            </div>
-
-                            {/* Column 3: Facility Info */}
-                            <div className="w-full md:w-auto flex-1 mb-8 md:mb-0 md:px-12">
-                                <motion.h3
-                                    whileInView={{ letterSpacing: ["-0.02em", "0em"] }}
-                                    className="text-lg md:text-xl font-black text-ink mb-1 transition-colors group-hover:text-crimson"
-                                >
-                                    {tour.facility}
-                                </motion.h3>
-                                <div className="flex flex-wrap items-center gap-2 text-[9px] font-black tracking-widest text-mid/50 uppercase">
-                                    <span>{tour.location}</span>
-                                    <span>·</span>
-                                    <span>{tour.duration}</span>
-                                </div>
-                                <div className="mt-3 flex items-center gap-2">
-                                    <div className={`w-1.5 h-1.5 rounded-full ${tour.spotsLeft <= 2 ? 'bg-orange-500' : 'bg-green-500'} ${tour.spotsLeft <= 2 ? 'animate-pulse' : ''}`} />
-                                    <span className={`text-[9px] font-black uppercase tracking-widest ${tour.spotsLeft <= 2 ? 'text-orange-600' : 'text-green-600'}`}>
-                                        {tour.statusLabel || tour.status}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Column 4: Focus & Availability */}
-                            <div className="w-full md:w-64 mb-8 md:mb-0 md:px-6">
-                                <div className="bg-gray-100 px-3 py-1.5 mb-4 inline-block transition-colors group-hover:bg-gray-200">
-                                    <span className="text-[9px] font-black tracking-widest text-mid/60 uppercase">
-                                        {tour.focus}
-                                    </span>
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="h-[2px] w-full bg-gray-100 overflow-hidden">
-                                        <motion.div
-                                            initial={{ width: 0 }}
-                                            whileInView={{ width: `${(tour.spotsLeft / tour.totalSpots) * 100}%` }}
-                                            transition={{ duration: 1.5, ease: "circOut", delay: 0.5 }}
-                                            whileHover={{ opacity: 0.8 }}
-                                            className="h-full bg-crimson"
-                                        />
+                            <div className="p-6">
+                                {/* Mobile Header: Date & Status */}
+                                <div className="flex justify-between items-start mb-6">
+                                    <div>
+                                        <div className="text-2xl font-black text-ink tracking-tight">{tour.day} {tour.month}</div>
+                                        <div className="text-[10px] text-ink/60 font-black uppercase tracking-widest mt-1">
+                                            {tour.year} · {tour.time}
+                                        </div>
                                     </div>
-                                    <span className="text-[9px] italic text-mid/50 group-hover:text-mid transition-colors">
-                                        {tour.spotsLeft} spots left
-                                    </span>
+                                    <div className={`text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-sm ${tour.isLimited ? 'bg-orange-50 text-orange-600' : 'bg-gray-50 text-ink'}`}>
+                                        {tour.availability}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="w-full md:w-auto flex items-center gap-4">
-                                <motion.button
-                                    whileTap={{ scale: 0.98 }}
+                                {/* Body: Facility & Campus */}
+                                <div className="space-y-4 mb-8">
+                                    <div>
+                                        <span className="text-[9px] font-black uppercase tracking-widest text-crimson block mb-1">Infrastructure Campus</span>
+                                        <div className="text-[18px] font-black text-ink leading-tight">{tour.facility}</div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50">
+                                        <div>
+                                            <span className="text-[9px] font-black uppercase tracking-widest text-ink/40 block mb-1">Location</span>
+                                            <div className="text-[11px] font-black uppercase tracking-wider text-ink">{tour.location}</div>
+                                        </div>
+                                        <div>
+                                            <span className="text-[9px] font-black uppercase tracking-widest text-ink/40 block mb-1">Focus Group</span>
+                                            <div className="text-[11px] font-black uppercase tracking-wider text-ink">{tour.focus}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Action Button */}
+                                <button
                                     onClick={() => handleBookTour(tour)}
-                                    className="flex-1 md:flex-none px-6 py-4 bg-crimson text-white text-[10px] font-black uppercase tracking-widest hover:bg-crimson-light transition-all flex items-center justify-between gap-6 min-w-[140px] shadow-lg shadow-crimson/10"
+                                    className="w-full bg-crimson text-white text-[11px] font-black uppercase tracking-[0.2em] py-5 rounded-sm flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
                                 >
-                                    Book tour <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                                </motion.button>
+                                    Book tour <ArrowRight size={16} />
+                                </button>
                             </div>
                         </motion.div>
                     ))}
                 </div>
+
+                <p className="text-center text-[9px] text-mid/40 mt-12 font-bold uppercase tracking-[0.3em]">
+                    All infrastructure tours are regulated under strict security NDA policies.
+                </p>
             </div>
         </section>
     );
