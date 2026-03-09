@@ -133,16 +133,8 @@ export default function Checkout() {
             setPaymentStatus('pending');
             setMessage("Payment initiated. Check your phone and enter your M-Pesa PIN to complete the payment.");
         } else {
-            // Since this is a frontend-only dev environment for now, 
-            // let's add a small simulation for the USER to see the flow if the API fails
-            console.warn("Payment API failed, simulating sequence for demo...");
-            setTimeout(() => {
-                setPaymentStatus('pending');
-                setMessage("Payment initiated. Check your phone and enter your M-Pesa PIN (SIMULATED).");
-                setTimeout(() => {
-                    setPaymentStatus('success');
-                }, 5000);
-            }, 1500);
+            setPaymentStatus('failed');
+            setMessage(res.error || "Failed to initiate payment. Please check your credentials.");
         }
     };
 

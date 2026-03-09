@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Global variable for status tracking during development
-// In production, this would be a database like Redis or MongoDB
-const paymentStatusMap = new Map<string, any>();
+const paymentStatuses = new Map<string, {
+    status: 'pending' | 'success' | 'failed',
+    timestamp: number,
+    amount?: number,
+    mpesaRef?: string,
+    ticketType?: 'individual' | 'corporate',
+    quantity?: number,
+    isClubMember?: boolean,
+    email?: string,
+    name?: string
+}>();
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
@@ -12,49 +20,56 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Missing checkoutRequestId' }, { status: 400 });
     }
 
-    const statusData = paymentStatusMap.get(checkoutRequestId);
+    const status = paymentStatuses.get(checkoutRequestId);
 
-    if (!statusData) {
+    if (!status) {
         return NextResponse.json({
             status: 'pending',
-            message: 'Payment status not yet found'
+            message: 'Payment status not found'
         });
     }
 
     // Clean up old entries (older than 10 minutes)
-    if (Date.now() - statusData.timestamp > 10 * 60 * 1000) {
-        paymentStatusMap.delete(checkoutRequestId);
+    if (Date.now() - status.timestamp > 10 * 60 * 1000) {
+        paymentStatuses.delete(checkoutRequestId);
         return NextResponse.json({
             status: 'failed',
-            message: 'Payment session timeout'
+            message: 'Payment timeout'
         });
     }
 
-    return NextResponse.json(statusData);
+    return NextResponse.json({
+        status: status.status,
+        amount: status.amount,
+        mpesaRef: status.mpesaRef,
+        ticketType: status.ticketType,
+        quantity: status.quantity,
+        isClubMember: status.isClubMember,
+        email: status.email,
+        name: status.name,
+        message: status.status === 'success' ? 'Payment completed successfully' :
+            status.status === 'failed' ? 'Payment failed' : 'Payment in progress'
+    });
 }
 
 export async function POST(request: NextRequest) {
-    const body = await request.json();
-    const { checkoutRequestId, status, email, name, amount, quantity, ticketType, mpesaRef } = body;
+    const { checkoutRequestId, status, amount, mpesaRef, ticketType, quantity, isClubMember, email, name } = await request.json();
 
     if (!checkoutRequestId || !status) {
-        return NextResponse.json({ error: 'Missing checkoutRequestId or status' }, { status: 400 });
+        return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const existingData = paymentStatusMap.get(checkoutRequestId) || {};
-
-    paymentStatusMap.set(checkoutRequestId, {
-        ...existingData,
+    paymentStatuses.set(checkoutRequestId, {
         status,
-        timestamp: existingData.timestamp || Date.now(),
-        email: email || existingData.email,
-        name: name || existingData.name,
-        amount: amount || existingData.amount,
-        quantity: quantity || existingData.quantity,
-        ticketType: ticketType || existingData.ticketType,
-        mpesaRef: mpesaRef || existingData.mpesaRef,
-        updatedAt: Date.now()
+        timestamp: Date.now(),
+        amount,
+        mpesaRef,
+        ticketType,
+        quantity,
+        isClubMember,
+        email,
+        name
     });
 
-    return NextResponse.json({ message: 'Status updated successfully' });
+    return NextResponse.json({ message: 'Status updated' });
 }

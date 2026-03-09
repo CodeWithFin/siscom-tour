@@ -62,6 +62,12 @@ export class MpesaService {
     private async getAccessToken(): Promise<string> {
         const auth = Buffer.from(`${this.consumerKey}:${this.consumerSecret}`).toString('base64');
 
+        console.log('--- M-Pesa Auth Debug ---');
+        console.log('Environment:', this.environment);
+        console.log('Base URL:', this.baseUrl);
+        console.log('Consumer Key Prefix:', this.consumerKey?.substring(0, 5) + '...');
+        console.log('Consumer Secret Prefix:', this.consumerSecret?.substring(0, 5) + '...');
+
         const response = await fetch(`${this.baseUrl}/oauth/v1/generate?grant_type=client_credentials`, {
             method: 'GET',
             headers: {
@@ -71,7 +77,13 @@ export class MpesaService {
         });
 
         if (!response.ok) {
-            throw new Error(`Failed to get access token: ${response.statusText}`);
+            const errorData = await response.text();
+            console.error('M-Pesa Access Token Error:', {
+                status: response.status,
+                statusText: response.statusText,
+                body: errorData
+            });
+            throw new Error(`Failed to get access token: ${response.statusText} - ${errorData}`);
         }
 
         const data: MpesaAccessTokenResponse = await response.json();
@@ -83,6 +95,7 @@ export class MpesaService {
         const timestamp = this.generateTimestamp();
         const password = this.generatePassword(timestamp);
 
+        // Format phone number
         const formattedPhone = phoneNumber.startsWith('0')
             ? '254' + phoneNumber.substring(1)
             : phoneNumber.startsWith('254')
@@ -103,26 +116,41 @@ export class MpesaService {
             TransactionDesc: transactionDesc,
         };
 
-        const response = await fetch(`${this.baseUrl}/mpesa/stkpush/v1/processrequest`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody),
-        });
+        console.log('M-Pesa STK Request Body:', JSON.stringify(requestBody, null, 2));
 
+        try {
+            const response = await fetch(`${this.baseUrl}/mpesa/stkpush/v1/processrequest`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            });
 
-        const responseData = await response.json();
-        if (!response.ok) {
-            throw new Error(`STK Push failed: ${responseData.errorMessage || response.statusText}`);
+            const responseData = await response.json();
+            console.log('M-Pesa STK Response Body:', JSON.stringify(responseData, null, 2));
+
+            if (responseData.errorCode || responseData.errorMessage) {
+                throw new Error(`STK Push failed: ${responseData.errorMessage || responseData.errorCode}`);
+            }
+
+            if (!response.ok) {
+                throw new Error(`STK Push failed with status ${response.status}: ${JSON.stringify(responseData)}`);
+            }
+
+            return responseData;
+        } catch (error: any) {
+            console.error('M-Pesa Service Error:', error);
+            throw error;
         }
-
-        return responseData;
     }
 
     static parseCallbackData(callbackData: MpesaCallbackData) {
-        const { stkCallback } = callbackData.Body;
+        const { stkCallback } = callbackData.Body || {};
+        if (!stkCallback) {
+            throw new Error("Invalid callback data structure");
+        }
 
         if (stkCallback.ResultCode !== 0) {
             return {
