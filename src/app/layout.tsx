@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Siscom Data Center Hangout Tours",
   description: "Tour Africa's most advanced data center infrastructure. Join us for an exclusive Data Center Hangout with networking and investment opportunities.",
+  icons: {
+    icon: "/siscom-o.svg",
+    shortcut: "/siscom-o.svg",
+    apple: "/siscom-o.svg",
+  },
 };
 
 export default function RootLayout({
