@@ -58,14 +58,10 @@ const tours = [
 ];
 
 export default function TourCards() {
-    const handleSelectTour = (tour) => {
-        const bookSection = document.getElementById('book');
-        if (bookSection) {
-            window.dispatchEvent(new CustomEvent('selectTour', {
-                detail: `${tour.day} ${tour.monthYear.split(' ')[0]} — ${tour.facility}`
-            }));
-            bookSection.scrollIntoView({ behavior: 'smooth' });
-        }
+    const handleBookTour = (tour) => {
+        // Redirection logic for checkout
+        console.log(`Booking tour: ${tour.facility}`);
+        window.location.href = '/checkout';
     };
 
     return (
@@ -92,7 +88,7 @@ export default function TourCards() {
                     <motion.div
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
-                        className="text-mid/60 font-serif italic text-lg"
+                        className="text-mid/60 italic text-lg"
                     >
                         4 tours · March — April 2026
                     </motion.div>
@@ -172,24 +168,20 @@ export default function TourCards() {
                                             className="h-full bg-crimson"
                                         />
                                     </div>
-                                    <span className="text-[9px] font-serif italic text-mid/50 group-hover:text-mid transition-colors">
+                                    <span className="text-[9px] italic text-mid/50 group-hover:text-mid transition-colors">
                                         {tour.spotsLeft} spots left
                                     </span>
                                 </div>
                             </div>
 
-                            {/* Column 5: Action */}
                             <div className="w-full md:w-auto flex items-center gap-4">
                                 <motion.button
                                     whileTap={{ scale: 0.98 }}
-                                    onClick={() => handleSelectTour(tour)}
-                                    className="flex-1 md:flex-none px-6 py-4 bg-crimson text-white text-[10px] font-black uppercase tracking-widest hover:bg-crimson-light transition-all flex items-center justify-between gap-6 min-w-[180px] shadow-lg shadow-crimson/10"
+                                    onClick={() => handleBookTour(tour)}
+                                    className="flex-1 md:flex-none px-6 py-4 bg-crimson text-white text-[10px] font-black uppercase tracking-widest hover:bg-crimson-light transition-all flex items-center justify-between gap-6 min-w-[140px] shadow-lg shadow-crimson/10"
                                 >
-                                    Reserve Spot <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                    Book tour <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                                 </motion.button>
-                                <button className="p-4 border border-gray-100 text-mid/40 hover:text-crimson hover:border-crimson transition-all rounded-sm">
-                                    <Share2 size={16} />
-                                </button>
                             </div>
                         </motion.div>
                     ))}

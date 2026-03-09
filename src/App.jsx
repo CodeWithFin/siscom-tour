@@ -1,14 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronUp } from 'lucide-react';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Marquee from './components/Marquee';
-import Partners from './components/Partners';
 import TourCards from './components/TourCards';
-import WhyTour from './components/WhyTour';
-import FAQ from './components/FAQ';
-import BookingForm from './components/BookingForm';
-import Footer from './components/Footer';
 
 function ScrollToTop() {
   const [visible, setVisible] = useState(false);
@@ -34,14 +27,9 @@ export default function App() {
     <main className="relative bg-white selection:bg-crimson selection:text-white overflow-hidden">
       <div className="noise-overlay" />
       <Navbar />
-      <Hero />
-      <Marquee />
-      <Partners />
-      <TourCards />
-      <WhyTour />
-      <FAQ />
-      <BookingForm />
-      <Footer />
+      <div className="pt-20"> {/* Add padding for the fixed navbar */}
+        <TourCards />
+      </div>
       <ScrollToTop />
     </main>
   );

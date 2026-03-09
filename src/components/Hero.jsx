@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { ArrowUpRight, ShieldCheck, Zap, Globe } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, Zap, Globe, ArrowRight } from 'lucide-react';
 
 export default function Hero() {
     const containerRef = useRef(null);
@@ -62,22 +62,32 @@ export default function Hero() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                     >
-                        <h1 className="text-5xl md:text-8xl font-black text-ink mb-8 leading-[0.9] tracking-tighter">
-                            Walk the Floor.<br />
-                            <span className="text-crimson italic">See the Future.</span>
+                        <h1 className="text-4xl md:text-6xl font-black text-ink mb-8 leading-[1.1] tracking-tighter uppercase">
+                            Book a <br />
+                            <span className="text-crimson">Data Center</span><br />
+                            <span className="italic">Hangout Tour</span>
                         </h1>
                     </motion.div>
 
                     {/* Subtext */}
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                        className="text-lg md:text-2xl text-mid mb-12 max-w-xl font-medium leading-relaxed"
-                    >
-                        Observe the racks, connect with engineers, and understand why global institutions
-                        are placing capital here — before the next wave hits.
-                    </motion.p>
+                    <div className="space-y-6 mb-12">
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                            className="text-lg md:text-xl text-ink font-bold leading-tight"
+                        >
+                            Have you ever been interested in how data centers work or looking to invest?
+                        </motion.p>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                            className="text-base md:text-lg text-mid font-medium leading-relaxed max-w-2xl"
+                        >
+                            Join us for an exclusive Data Center Hangout! You'll get a full DC tour followed by a networking session with free wines and beers, plus an open pitch floor for those interested in investing.
+                        </motion.p>
+                    </div>
 
                     {/* CTAs */}
                     <motion.div
@@ -87,16 +97,16 @@ export default function Hero() {
                         className="flex flex-col sm:flex-row items-center gap-6"
                     >
                         <a
-                            href="#book"
-                            className="w-full sm:w-auto bg-crimson text-white px-10 py-5 font-black uppercase tracking-widest text-[10px] hover:bg-crimson-light transition-all hover:-translate-y-1 shadow-xl shadow-crimson/20 flex items-center justify-center gap-2"
+                            href="#tours"
+                            className="w-full sm:w-auto bg-crimson text-white px-10 py-5 font-black uppercase tracking-widest text-[10px] hover:bg-crimson-light transition-all hover:-translate-y-1 shadow-xl shadow-crimson/20 flex items-center justify-center gap-2 rounded-sm"
                         >
-                            Book Your Spot <ArrowUpRight size={16} />
+                            Choose a Facility <ArrowRight size={16} />
                         </a>
                         <a
                             href="#why"
-                            className="w-full sm:w-auto bg-white text-ink border border-gray-100 px-10 py-5 font-black uppercase tracking-widest text-[10px] hover:border-crimson transition-all"
+                            className="w-full sm:w-auto bg-white text-ink border border-gray-100 px-10 py-5 font-black uppercase tracking-widest text-[10px] hover:border-crimson transition-all rounded-sm"
                         >
-                            View Why Tour
+                            Why Attend?
                         </a>
                     </motion.div>
 

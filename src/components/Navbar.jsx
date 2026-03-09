@@ -14,9 +14,8 @@ export default function Navbar() {
     }, []);
 
     const navLinks = [
-        { label: 'Tour Dates', href: '#tours' },
-        { label: 'Why Tour', href: '#why' },
-        { label: 'Book', href: '#book' },
+        { label: 'Upcoming Tours', href: '#tours' },
+        { label: 'Book a Spot', href: '#book' },
     ];
 
     return (
@@ -59,10 +58,10 @@ export default function Navbar() {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.4 }}
-                        href="#book"
+                        href="#tours"
                         className="group flex items-center gap-2 bg-crimson text-white text-[10px] font-black tracking-[0.1em] uppercase px-6 py-3 hover:bg-crimson-light transition-all hover:-translate-y-0.5 shadow-lg shadow-crimson/10"
                     >
-                        Book a Tour
+                        Book tour
                         <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                     </motion.a>
                 </div>

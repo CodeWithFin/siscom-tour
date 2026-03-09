@@ -1,6 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
-
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
 @theme {
   --color-crimson: #C41230;
@@ -13,8 +12,7 @@
   --color-cream: #FAF8F3;
   --color-bg: #FFFFFF;
   --color-bg2: #F8F8F8;
-  --font-family-syne: 'Syne', sans-serif;
-  --font-family-mono: 'Space Mono', monospace;
+  --font-family-sans: 'Inter', sans-serif;
 }
 
 html {
@@ -22,7 +20,7 @@ html {
 }
 
 body {
-  font-family: var(--font-family-syne);
+  font-family: var(--font-family-sans);
   color: var(--color-ink);
   background: var(--color-bg);
   overflow-x: hidden;
