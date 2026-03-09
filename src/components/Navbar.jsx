@@ -52,10 +52,10 @@ export default function Navbar() {
 
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 py-4 ${scrolled
+            className={`absolute top-0 left-0 right-0 z-[100] transition-colors duration-500 py-4 ${scrolled
                 ? 'bg-white/70 backdrop-blur-xl border-b border-gray-100 shadow-sm'
                 : 'bg-transparent'
-                } ${visible ? 'translate-y-0' : '-translate-y-full'}`}
+                }`}
         >
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-14">
                 {/* Logo */}
