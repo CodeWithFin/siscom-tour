@@ -6,15 +6,32 @@ import Logo from './Logo';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
+    const [visible, setVisible] = useState(true);
+    const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
     const isHome = location.pathname === '/';
 
     useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
+        const handleScroll = () => {
+            const currentScrollPos = window.scrollY;
+
+            // Background blur logic
+            setScrolled(currentScrollPos > 20);
+
+            // Visibility logic (Hide on scroll down, show on scroll up)
+            if (currentScrollPos > 100) { // Only start hiding after some scrolling
+                setVisible(prevScrollPos > currentScrollPos);
+            } else {
+                setVisible(true);
+            }
+
+            setPrevScrollPos(currentScrollPos);
+        };
+
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [prevScrollPos]);
 
     const scrollToTours = (e) => {
         if (isHome) {
@@ -32,7 +49,7 @@ export default function Navbar() {
             className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 py-4 ${scrolled
                 ? 'bg-white/70 backdrop-blur-xl border-b border-gray-100 shadow-sm'
                 : 'bg-transparent'
-                }`}
+                } ${visible ? 'translate-y-0' : '-translate-y-full'}`}
         >
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-14">
                 {/* Logo */}

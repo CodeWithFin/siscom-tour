@@ -64,7 +64,7 @@ export default function TourCards() {
         const isInvestor = tour.focus.includes('INVESTOR');
         const params = new URLSearchParams({
             ticket: isInvestor ? 'individual' : 'corporate',
-            amount: isInvestor ? '5000' : '50000',
+            amount: isInvestor ? '2600' : '26000',
             quantity: '1'
         });
         navigate(`/checkout?${params.toString()}`);

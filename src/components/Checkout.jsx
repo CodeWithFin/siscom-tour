@@ -32,7 +32,7 @@ export default function Checkout() {
 
     // Get URL parameters
     const urlTicketType = searchParams.get('ticket') || 'individual';
-    const urlAmount = parseInt(searchParams.get('amount') || '5000');
+    const urlAmount = parseInt(searchParams.get('amount') || '2600');
     const urlQuantity = parseInt(searchParams.get('quantity') || '1');
     const urlIsClubMember = searchParams.get('clubMember') === 'true';
     const urlClubId = searchParams.get('clubId') || '';
@@ -54,7 +54,7 @@ export default function Checkout() {
 
     // Calculate unit price and total
     const getUnitPrice = () => {
-        return ticketType === 'individual' ? 5000 : 50000;
+        return ticketType === 'individual' ? 2600 : 26000;
     };
 
     // Update total when quantity or other factors change
@@ -122,7 +122,7 @@ export default function Checkout() {
             name,
             interests,
             amount: totalAmount,
-            eventType: ticketType === 'individual' ? '5000' : '50000',
+            eventType: ticketType === 'individual' ? '2600' : '26000',
             ticketType,
             quantity
         });
