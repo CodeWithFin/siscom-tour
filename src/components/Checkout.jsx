@@ -155,27 +155,37 @@ export default function Checkout() {
                     {/* Subscribe Form Card */}
                     <div className="bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.25)] border border-gray-100 overflow-hidden">
                         {/* Header */}
-                        <div className="bg-crimson text-white text-center py-6">
-                            <h1 className="text-2xl font-bold uppercase tracking-tight">
+                        <div className="bg-crimson text-white text-center py-3">
+                            <h1 className="text-lg font-bold uppercase tracking-tight">
                                 DC Tour Checkout
                             </h1>
-                            <p className="text-white/80 mt-1 font-medium tracking-wide">
+                            <p className="text-white/80 text-[10px] mt-0.5 font-medium tracking-wide">
                                 {ticketType === 'individual' ? 'Individual Access' : 'Corporate Package'}
                             </p>
                         </div>
 
                         {/* Form */}
-                        <div className="p-8 space-y-6">
+                        <div className="p-5 space-y-3">
                             {/* Ticket Summary */}
-                            <div className="bg-gray-50 rounded-lg p-4 border">
-                                <h3 className="font-semibold text-gray-900 mb-2">Order Summary</h3>
-                                <div className="space-y-2 text-sm">
+                            <div className="bg-gray-50 rounded-lg p-2.5 border">
+                                <h3 className="text-[11px] font-bold text-gray-900 mb-1 uppercase tracking-wider">Order Summary</h3>
+                                <div className="space-y-0.5 text-[12px]">
                                     <div className="flex justify-between">
                                         <span>Ticket Type:</span>
                                         <span className="font-medium text-right">
                                             {ticketType === 'individual' ? 'Individual Ticket' : 'Corporate & SME Package'}
                                         </span>
                                     </div>
+                                    {ticketType === 'corporate' && (
+                                        <div className="bg-crimson/5 rounded p-1.5 mt-1 border border-crimson/10">
+                                            <p className="text-[10px] text-crimson font-bold uppercase mb-0.5 italic">Corporate Benefits Included:</p>
+                                            <ul className="text-[10px] space-y-0.5 text-ink/70 list-disc list-inside">
+                                                <li>Group Access (up to 5 people)</li>
+                                                <li>Exclusive Networking Session</li>
+                                                <li>Priority DC Consultation</li>
+                                            </ul>
+                                        </div>
+                                    )}
                                     <div className="flex justify-between items-center">
                                         <span>Quantity:</span>
                                         <div className="flex items-center gap-2">
@@ -198,7 +208,7 @@ export default function Checkout() {
                                         <span>Unit Price:</span>
                                         <span>KES {getUnitPrice().toLocaleString()}</span>
                                     </div>
-                                    <div className="border-t pt-2 flex justify-between font-bold text-lg">
+                                    <div className="border-t pt-1 flex justify-between font-bold text-sm">
                                         <span>Total:</span>
                                         <span className="text-crimson">KES {totalAmount.toLocaleString()}</span>
                                     </div>
@@ -207,25 +217,25 @@ export default function Checkout() {
 
                             {/* Interests Section */}
                             <div className="relative" ref={dropdownRef}>
-                                <label className="block text-sm font-medium text-gray-900 mb-2">
-                                    I'm interested in (select all that apply)
+                                <label className="block text-[11px] font-semibold text-gray-900 mb-1 uppercase tracking-wider">
+                                    Interests
                                 </label>
                                 <button
                                     type="button"
                                     onClick={() => setShowInterests(!showInterests)}
-                                    className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-gray-300 bg-white hover:border-crimson transition-all text-left"
+                                    className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg border border-gray-300 bg-white hover:border-crimson transition-all text-left"
                                 >
-                                    <span className={`text-sm ${interests.length > 0 ? 'text-ink' : 'text-gray-500'}`}>
+                                    <span className={`text-[12px] ${interests.length > 0 ? 'text-ink' : 'text-gray-500'}`}>
                                         {interests.length > 0
                                             ? `${interests.length} selected`
-                                            : "Select interests..."}
+                                            : "Select..."}
                                     </span>
-                                    <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${showInterests ? 'rotate-180' : ''}`} />
+                                    <ChevronDown className={`w-3 h-3 text-gray-400 transition-transform ${showInterests ? 'rotate-180' : ''}`} />
                                 </button>
 
                                 {showInterests && (
-                                    <div className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                                        <div className="max-h-60 overflow-y-auto p-2 space-y-1">
+                                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                                        <div className="max-h-48 overflow-y-auto p-1.5 space-y-0.5">
                                             {[
                                                 "Investing in DC White Space",
                                                 "Colocation for my business",
@@ -244,81 +254,56 @@ export default function Checkout() {
                                                             setInterests([...interests, interest]);
                                                         }
                                                     }}
-                                                    className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm transition-colors ${interests.includes(interest)
+                                                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${interests.includes(interest)
                                                         ? 'bg-crimson/5 text-crimson font-semibold'
                                                         : 'text-ink hover:bg-gray-50'
                                                         }`}
                                                 >
                                                     {interest}
-                                                    {interests.includes(interest) && <Check className="w-4 h-4" />}
+                                                    {interests.includes(interest) && <Check className="w-3.5 h-3.5" />}
                                                 </button>
                                             ))}
                                         </div>
                                     </div>
                                 )}
-
-                                {interests.length > 0 && (
-                                    <div className="flex flex-wrap gap-2 mt-3">
-                                        {interests.map(i => (
-                                            <span key={i} className="px-2 py-1 bg-crimson/5 text-crimson text-[10px] font-bold uppercase tracking-wider rounded border border-crimson/10 flex items-center gap-1">
-                                                {i}
-                                                <button
-                                                    onClick={() => setInterests(interests.filter(x => x !== i))}
-                                                    className="hover:text-crimson-light"
-                                                >
-                                                    ×
-                                                </button>
-                                            </span>
-                                        ))}
-                                    </div>
-                                )}
                             </div>
 
-                            {/* Name Address */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-900 mb-2">
-                                    Full Name
-                                </label>
-                                <input
-                                    type="text"
-                                    value={name}
-                                    onChange={e => setName(e.target.value)}
-                                    placeholder="John Doe"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:border-crimson focus:ring-1 focus:ring-crimson transition-colors text-ink placeholder-gray-500 outline-none"
-                                />
-                            </div>
-
-                            {/* Email Address */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-900 mb-2">
-                                    Email Address
-                                </label>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    placeholder="your@email.com"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:border-crimson focus:ring-1 focus:ring-crimson transition-colors text-ink placeholder-gray-500 outline-none"
-                                />
-                            </div>
-
-                            {/* Phone Number */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-900 mb-2">
-                                    Phone Number (M-Pesa)
-                                </label>
-                                <input
-                                    type="tel"
-                                    value={phoneNumber}
-                                    onChange={e => setPhoneNumber(e.target.value)}
-                                    placeholder="0712345678"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:border-crimson focus:ring-1 focus:ring-crimson transition-colors text-ink placeholder-gray-500 outline-none"
-                                />
-                                <p className="text-xs text-gray-500 mt-1">Enter your M-Pesa registered number</p>
+                            {/* Info Grid for Name/Email to save space */}
+                            <div className="grid grid-cols-1 gap-2.5">
+                                <div>
+                                    <label className="block text-[11px] font-semibold text-gray-900 mb-1 uppercase tracking-wider">Full Name</label>
+                                    <input
+                                        type="text"
+                                        value={name}
+                                        onChange={e => setName(e.target.value)}
+                                        placeholder="John Doe"
+                                        className="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white focus:border-crimson focus:ring-1 focus:ring-crimson transition-colors text-[13px] placeholder-gray-500 outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-[11px] font-semibold text-gray-900 mb-1 uppercase tracking-wider">Email Address</label>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={e => setEmail(e.target.value)}
+                                        placeholder="your@email.com"
+                                        className="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white focus:border-crimson focus:ring-1 focus:ring-crimson transition-colors text-[13px] placeholder-gray-500 outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-[11px] font-semibold text-gray-900 mb-1 uppercase tracking-wider">Phone (M-Pesa)</label>
+                                    <input
+                                        type="tel"
+                                        value={phoneNumber}
+                                        onChange={e => setPhoneNumber(e.target.value)}
+                                        placeholder="0712345678"
+                                        className="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white focus:border-crimson focus:ring-1 focus:ring-crimson transition-colors text-[13px] placeholder-gray-500 outline-none"
+                                    />
+                                </div>
                             </div>
 
                             {/* Divider */}
-                            <div className="border-t border-gray-300 my-4"></div>
+                            <div className="border-t border-gray-200 my-1"></div>
 
                             {/* Payment Status and Button */}
                             {paymentStatus === 'success' ? (
@@ -364,10 +349,9 @@ export default function Checkout() {
                                 </div>
                             ) : (
                                 <button
-                                    type="button"
-                                    className="w-full bg-crimson hover:bg-crimson-light text-white font-bold py-5 rounded-sm transition-all duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed uppercase tracking-widest text-[11px]"
-                                    disabled={paymentStatus === 'initiating'}
                                     onClick={handlePayment}
+                                    disabled={paymentStatus !== 'idle'}
+                                    className="w-full bg-crimson hover:bg-crimson-dark text-white font-bold py-3 px-6 rounded-lg transition-all transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-crimson/20 flex items-center justify-center gap-3 text-sm"
                                 >
                                     {paymentStatus === 'initiating' ? (
                                         <div className="flex items-center justify-center space-x-2">
