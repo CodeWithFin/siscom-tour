@@ -1,5 +1,6 @@
+"use client";
 import { useState, useEffect, useRef } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useRouter } from "next/navigation";
 import { ChevronDown, Check } from "lucide-react";
 import Navbar from './Navbar';
 
@@ -27,8 +28,8 @@ async function checkPaymentStatus(checkoutRequestId) {
 }
 
 export default function Checkout() {
-    const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
+    const searchParams = useSearchParams();
+    const router = useRouter();
 
     // Get URL parameters
     const urlTicketType = searchParams.get('ticket') || 'individual';

@@ -1,3 +1,4 @@
+"use client";
 import { motion } from 'framer-motion';
 import { ShieldAlert, Globe2, TrendingUp, Zap, Expand, Users2 } from 'lucide-react';
 

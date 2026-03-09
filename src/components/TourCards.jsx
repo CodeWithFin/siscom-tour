@@ -1,6 +1,7 @@
+"use client";
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 const tours = [
     {
@@ -58,7 +59,7 @@ const tours = [
 ];
 
 export default function TourCards() {
-    const navigate = useNavigate();
+    const router = useRouter();
 
     const handleBookTour = (tour) => {
         const isInvestor = tour.focus.includes('INVESTOR');
@@ -67,7 +68,7 @@ export default function TourCards() {
             amount: isInvestor ? '2600' : '26000',
             quantity: '1'
         });
-        navigate(`/checkout?${params.toString()}`);
+        router.push(`/checkout?${params.toString()}`);
     };
 
     return (

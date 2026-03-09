@@ -1,3 +1,4 @@
+"use client";
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { ArrowUpRight, ShieldCheck, Zap, Globe, ArrowRight } from 'lucide-react';

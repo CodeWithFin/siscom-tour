@@ -1,16 +1,22 @@
+"use client";
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowRight } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Logo from './Logo';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [visible, setVisible] = useState(true);
-    const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
+    const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [menuOpen, setMenuOpen] = useState(false);
-    const location = useLocation();
-    const isHome = location.pathname === '/';
+    const pathname = usePathname();
+    const isHome = pathname === '/';
+
+    useEffect(() => {
+        setPrevScrollPos(window.scrollY);
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -57,7 +63,7 @@ export default function Navbar() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                 >
-                    <Link to="/" className="flex items-center">
+                    <Link href="/" className="flex items-center">
                         <Logo className="h-6 md:h-8" color="#C41230" />
                     </Link>
                 </motion.div>
@@ -70,7 +76,7 @@ export default function Navbar() {
                         transition={{ delay: 0.2 }}
                     >
                         <Link
-                            to={isHome ? "#tours" : "/#tours"}
+                            href={isHome ? "#tours" : "/#tours"}
                             onClick={scrollToTours}
                             className="group flex items-center gap-2 bg-crimson text-white text-[10px] font-black tracking-[0.1em] uppercase px-6 py-3 hover:bg-crimson-light transition-all hover:-translate-y-0.5 shadow-lg shadow-crimson/10"
                         >
@@ -107,7 +113,7 @@ export default function Navbar() {
                             transition={{ delay: 0.2 }}
                         >
                             <Link
-                                to={isHome ? "#tours" : "/#tours"}
+                                href={isHome ? "#tours" : "/#tours"}
                                 onClick={scrollToTours}
                                 className="block bg-crimson text-white text-center text-sm font-black uppercase tracking-widest px-5 py-5 hover:bg-crimson-light transition-all"
                             >
