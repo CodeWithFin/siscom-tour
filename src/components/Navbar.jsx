@@ -1,17 +1,31 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowRight } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import Logo from './Logo';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const location = useLocation();
+    const isHome = location.pathname === '/';
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    const scrollToTours = (e) => {
+        if (isHome) {
+            e.preventDefault();
+            const element = document.getElementById('tours');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                setMenuOpen(false);
+            }
+        }
+    };
 
     return (
         <nav
@@ -22,27 +36,31 @@ export default function Navbar() {
         >
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-14">
                 {/* Logo */}
-                <motion.a
+                <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    href="#"
-                    className="flex items-center"
                 >
-                    <Logo className="h-6 md:h-8" color="#C41230" />
-                </motion.a>
+                    <Link to="/" className="flex items-center">
+                        <Logo className="h-6 md:h-8" color="#C41230" />
+                    </Link>
+                </motion.div>
 
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-10">
-                    <motion.a
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2 }}
-                        href="#tours"
-                        className="group flex items-center gap-2 bg-crimson text-white text-[10px] font-black tracking-[0.1em] uppercase px-6 py-3 hover:bg-crimson-light transition-all hover:-translate-y-0.5 shadow-lg shadow-crimson/10"
                     >
-                        Book tour
-                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                    </motion.a>
+                        <Link
+                            to={isHome ? "#tours" : "/#tours"}
+                            onClick={scrollToTours}
+                            className="group flex items-center gap-2 bg-crimson text-white text-[10px] font-black tracking-[0.1em] uppercase px-6 py-3 hover:bg-crimson-light transition-all hover:-translate-y-0.5 shadow-lg shadow-crimson/10"
+                        >
+                            Book tour
+                            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </motion.div>
                 </div>
 
                 {/* Mobile Menu Toggle */}
@@ -66,16 +84,19 @@ export default function Navbar() {
                         exit={{ opacity: 0, y: -20 }}
                         className="md:hidden absolute top-full left-0 right-0 glass px-6 py-8 space-y-6 shadow-2xl overflow-hidden"
                     >
-                        <motion.a
+                        <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            href="#tours"
-                            onClick={() => setMenuOpen(false)}
-                            className="block bg-crimson text-white text-center text-sm font-black uppercase tracking-widest px-5 py-5 hover:bg-crimson-light transition-all"
                         >
-                            Book tour
-                        </motion.a>
+                            <Link
+                                to={isHome ? "#tours" : "/#tours"}
+                                onClick={scrollToTours}
+                                className="block bg-crimson text-white text-center text-sm font-black uppercase tracking-widest px-5 py-5 hover:bg-crimson-light transition-all"
+                            >
+                                Book tour
+                            </Link>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>

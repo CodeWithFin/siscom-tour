@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const tours = [
     {
@@ -57,8 +58,16 @@ const tours = [
 ];
 
 export default function TourCards() {
+    const navigate = useNavigate();
+
     const handleBookTour = (tour) => {
-        window.location.href = '/checkout';
+        const isInvestor = tour.focus.includes('INVESTOR');
+        const params = new URLSearchParams({
+            ticket: isInvestor ? 'individual' : 'corporate',
+            amount: isInvestor ? '5000' : '50000',
+            quantity: '1'
+        });
+        navigate(`/checkout?${params.toString()}`);
     };
 
     return (
