@@ -73,11 +73,11 @@ export default async function AdminDashboard() {
                         <table className="w-full text-left text-sm whitespace-nowrap">
                             <thead className="bg-gray-50/50 text-xs font-semibold text-gray-500 border-b border-gray-100 uppercase tracking-wider">
                                 <tr>
-                                    <th className="px-6 py-4">Status</th>
                                     <th className="px-6 py-4">Guest Info</th>
                                     <th className="px-6 py-4">Tour Details</th>
                                     <th className="px-6 py-4">Payment</th>
                                     <th className="px-6 py-4">Added</th>
+                                    <th className="px-6 py-4">Status</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
@@ -96,17 +96,6 @@ export default async function AdminDashboard() {
                                 ) : (
                                     payments.map((payment) => (
                                         <tr key={payment.id} className="hover:bg-rose-50/30 transition-colors group">
-                                            <td className="px-6 py-5">
-                                                <span className={`px-2.5 py-1 rounded-full text-xs font-medium border flex w-max items-center gap-1.5 ${payment.status === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                                                        payment.status === 'pending' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                                                            'bg-red-50 text-red-700 border-red-200'
-                                                    }`}>
-                                                    <span className={`w-1.5 h-1.5 rounded-full ${payment.status === 'success' ? 'bg-emerald-500' :
-                                                            payment.status === 'pending' ? 'bg-amber-500' : 'bg-red-500'
-                                                        }`}></span>
-                                                    {payment.status}
-                                                </span>
-                                            </td>
                                             <td className="px-6 py-5">
                                                 <div className="flex items-start gap-3">
                                                     <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0 mt-0.5">
@@ -150,6 +139,17 @@ export default async function AdminDashboard() {
                                             </td>
                                             <td className="px-6 py-5 text-gray-500 font-medium">
                                                 {formatDate(payment.created_at)}
+                                            </td>
+                                            <td className="px-6 py-5">
+                                                <span className={`px-2.5 py-1 rounded-full text-xs font-medium border flex w-max items-center gap-1.5 bg-white ${payment.status === 'success' ? 'text-emerald-700 border-emerald-200' :
+                                                        payment.status === 'pending' ? 'text-amber-700 border-amber-200' :
+                                                            'text-red-700 border-red-200'
+                                                    }`}>
+                                                    <span className={`w-1.5 h-1.5 rounded-full ${payment.status === 'success' ? 'bg-emerald-500' :
+                                                            payment.status === 'pending' ? 'bg-amber-500' : 'bg-red-500'
+                                                        }`}></span>
+                                                    {payment.status}
+                                                </span>
                                             </td>
                                         </tr>
                                     ))
