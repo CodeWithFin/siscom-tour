@@ -10,7 +10,7 @@ const tours = [
         month: 'MAR',
         year: '2026',
         time: '9:00 AM',
-        facility: 'PAIX Nairobi',
+        facility: 'PAIX',
         duration: '3 HOURS',
         availability: '5 SPOTS LEFT',
         isLimited: false
@@ -21,7 +21,7 @@ const tours = [
         month: 'APR',
         year: '2026',
         time: '10:00 AM',
-        facility: 'IX Africa',
+        facility: 'iXAfrica Data centers',
         duration: '3.5 HOURS',
         availability: '12 SPOTS LEFT',
         isLimited: false
@@ -34,8 +34,8 @@ const tours = [
         time: '9:00 AM',
         facility: 'iColo',
         duration: '2.5 HOURS',
-        availability: '2 SPOTS LEFT',
-        isLimited: true
+        availability: '10 SPOTS LEFT',
+        isLimited: false
     },
     {
         id: '04',
@@ -43,7 +43,7 @@ const tours = [
         month: 'JUN',
         year: '2026',
         time: '2:00 PM',
-        facility: 'ADC',
+        facility: 'Africa Data centers',
         duration: '2 HOURS',
         availability: '8 SPOTS LEFT',
         isLimited: false
@@ -79,7 +79,7 @@ export default function TourCards() {
 
                 {/* Desktop Table View (Hidden on mobile) */}
                 <div className="hidden lg:block overflow-x-auto overflow-y-hidden">
-                    <div className="min-w-[1200px] border border-gray-100 rounded-lg overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white">
+                    <div className="min-w-[1200px] border border-gray-200 rounded-lg overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white">
                         {/* Table Header */}
                         <div className="bg-ink text-white flex items-center px-12 py-6 text-[10px] font-bold uppercase tracking-[0.15em]">
                             <div className="w-[25%]">Session / Time</div>
@@ -89,14 +89,14 @@ export default function TourCards() {
                         </div>
 
                         {/* Table Body */}
-                        <div className="divide-y divide-gray-100">
+                        <div className="divide-y divide-gray-200">
                             {tours.map((tour, i) => (
                                 <motion.div
                                     key={tour.id}
                                     initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.1, duration: 0.5 }}
-                                    className="flex items-center px-12 py-12 hover:bg-gray-50/50 transition-all duration-300 group"
+                                    className="flex items-center px-12 py-6 hover:bg-gray-50/50 transition-all duration-300 group"
                                 >
                                     {/* Column 1: Date/Time */}
                                     <div className="w-[25%]">
@@ -144,7 +144,7 @@ export default function TourCards() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+                            className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
                         >
                             <div className="p-6">
                                 {/* Mobile Header: Date & Status */}
