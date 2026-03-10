@@ -33,7 +33,7 @@ export default function Checkout() {
 
     // Get URL parameters
     const urlTicketType = searchParams.get('ticket') || 'individual';
-    const urlAmount = parseInt(searchParams.get('amount') || '1');
+    const urlAmount = parseInt(searchParams.get('amount') || '2600');
     const urlQuantity = parseInt(searchParams.get('quantity') || '1');
     const urlIsClubMember = searchParams.get('clubMember') === 'true';
     const urlClubId = searchParams.get('clubId') || '';
@@ -57,7 +57,7 @@ export default function Checkout() {
 
     // Update total when quantity changes
     useEffect(() => {
-        setTotalAmount(1 * quantity);
+        setTotalAmount(2600 * quantity);
     }, [quantity]);
 
     // Poll payment status - verbatim from user snippet
