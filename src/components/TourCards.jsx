@@ -151,9 +151,12 @@ export default function TourCards() {
                                     <div className="w-[15%] text-right pr-16">
                                         <button
                                             onClick={() => handleBookTour(tour)}
-                                            className="bg-crimson text-white text-[10px] font-bold uppercase tracking-[0.1em] px-8 py-4 rounded hover:bg-crimson-light transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-md shadow-crimson/5 hover:translate-x-1"
+                                            className="relative overflow-hidden bg-crimson text-white text-[10px] font-bold uppercase tracking-[0.1em] px-10 py-5 rounded hover:bg-crimson-light transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-xl shadow-crimson/10 hover:translate-x-1"
                                         >
-                                            Book tour <ArrowRight size={14} />
+                                            <div className="absolute inset-0 bg-brand-stripes opacity-30" />
+                                            <span className="relative z-10 flex items-center gap-2">
+                                                Book tour <ArrowRight size={14} />
+                                            </span>
                                         </button>
                                     </div>
                                 </motion.div>
@@ -209,9 +212,12 @@ export default function TourCards() {
                                 {/* Action Button */}
                                 <button
                                     onClick={() => handleBookTour(tour)}
-                                    className="w-full bg-crimson text-white text-[11px] font-bold uppercase tracking-[0.15em] py-5 rounded flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
+                                    className="w-full relative overflow-hidden bg-crimson text-white text-[11px] font-bold uppercase tracking-[0.15em] py-5 rounded flex items-center justify-center gap-3 active:scale-[0.98] transition-all shadow-xl shadow-crimson/10"
                                 >
-                                    Book tour <ArrowRight size={16} />
+                                    <div className="absolute inset-0 bg-brand-stripes opacity-20" />
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        Book tour <ArrowRight size={16} />
+                                    </span>
                                 </button>
                             </div>
                         </motion.div>

@@ -2,8 +2,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-crimson: #C41230;
-  --color-crimson-light: #E8114A;
+  --color-crimson: #EC008C;
+  --color-crimson-light: #FF3BB1;
+  --color-crimson-dark: #C40075;
   --color-ink: #0F0D0A;
   --color-ink2: #1E1B16;
   --color-mid: #6B6457;
@@ -80,8 +81,8 @@ body {
 /* ─ HERO PATTERN ─ */
 .hero-grid-pattern {
   background-image:
-    linear-gradient(rgba(196, 18, 48, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(196, 18, 48, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(236, 0, 140, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(236, 0, 140, 0.04) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -96,6 +97,35 @@ body {
   z-index: 100;
   opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ─ STRIPE PATTERNS ─ */
+.bg-brand-stripes {
+  background-image: repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.2) 2px,
+      transparent 2px,
+      transparent 4px);
+}
+
+.text-brand-stripes {
+  background-image: repeating-linear-gradient(0deg,
+      var(--color-crimson),
+      var(--color-crimson) 3px,
+      transparent 3px,
+      transparent 5px);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stripe-overlay {
+  background-image: repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, 0.1) 0px,
+      rgba(255, 255, 255, 0.1) 2px,
+      transparent 2px,
+      transparent 4px);
+  pointer-events: none;
 }
 
 /* ─ GLASSMORPHISM ─ */

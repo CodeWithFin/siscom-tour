@@ -64,7 +64,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, x: 0 }}
                 >
                     <Link href="/" className="flex items-center">
-                        <Logo className="h-6 md:h-8" color="#C41230" />
+                        <Logo className="h-8 md:h-12" />
                     </Link>
                 </motion.div>
 
@@ -78,10 +78,13 @@ export default function Navbar() {
                         <Link
                             href={isHome ? "#tours" : "/#tours"}
                             onClick={scrollToTours}
-                            className="group flex items-center gap-2 bg-crimson text-white text-[10px] font-black tracking-[0.1em] uppercase px-6 py-3 hover:bg-crimson-light transition-all hover:-translate-y-0.5 shadow-lg shadow-crimson/10"
+                            className="group relative overflow-hidden flex items-center gap-2 bg-crimson text-white text-[10px] font-black tracking-[0.1em] uppercase px-8 py-4 hover:bg-crimson-light transition-all hover:-translate-y-0.5 shadow-xl shadow-crimson/10"
                         >
-                            Book tour
-                            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                            <div className="absolute inset-0 bg-brand-stripes opacity-30" />
+                            <span className="relative z-10 flex items-center gap-2">
+                                Book tour
+                                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                            </span>
                         </Link>
                     </motion.div>
                 </div>
@@ -115,9 +118,10 @@ export default function Navbar() {
                             <Link
                                 href={isHome ? "#tours" : "/#tours"}
                                 onClick={scrollToTours}
-                                className="block bg-crimson text-white text-center text-sm font-black uppercase tracking-widest px-5 py-5 hover:bg-crimson-light transition-all"
+                                className="block relative overflow-hidden bg-crimson text-white text-center text-sm font-black uppercase tracking-widest px-5 py-6 hover:bg-crimson-light transition-all"
                             >
-                                Book tour
+                                <div className="absolute inset-0 bg-brand-stripes opacity-30" />
+                                <span className="relative z-10">Book tour</span>
                             </Link>
                         </motion.div>
                     </motion.div>

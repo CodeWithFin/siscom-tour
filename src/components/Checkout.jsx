@@ -149,11 +149,12 @@ export default function Checkout() {
                     {/* Subscribe Form Card */}
                     <div className="bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.25)] border border-gray-100 overflow-hidden">
                         {/* Header */}
-                        <div className="bg-crimson text-white text-center py-3">
-                            <h1 className="text-lg font-bold uppercase tracking-tight">
+                        <div className="bg-crimson relative overflow-hidden text-white text-center py-5">
+                            <div className="absolute inset-0 bg-brand-stripes opacity-30" />
+                            <h1 className="relative z-10 text-xl font-bold uppercase tracking-tight">
                                 DC Tour Checkout
                             </h1>
-                            <p className="text-white/80 text-[10px] mt-0.5 font-medium tracking-wide">
+                            <p className="relative z-10 text-white/80 text-[10px] mt-0.5 font-medium tracking-wide">
                                 Individual Access
                             </p>
                         </div>
@@ -335,16 +336,19 @@ export default function Checkout() {
                                 <button
                                     onClick={handlePayment}
                                     disabled={paymentStatus !== 'idle'}
-                                    className="w-full bg-crimson hover:bg-crimson-dark text-white font-bold py-3 px-6 rounded-lg transition-all transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-crimson/20 flex items-center justify-center gap-3 text-sm"
+                                    className="w-full relative overflow-hidden bg-crimson hover:bg-crimson-dark text-white font-bold py-4 px-6 rounded-lg transition-all transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-crimson/20 flex items-center justify-center gap-3 text-sm"
                                 >
-                                    {paymentStatus === 'initiating' ? (
-                                        <div className="flex items-center justify-center space-x-2">
-                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                            <span>Initiating Payment...</span>
-                                        </div>
-                                    ) : (
-                                        'Pay Now'
-                                    )}
+                                    <div className="absolute inset-0 bg-brand-stripes opacity-20" />
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        {paymentStatus === 'initiating' ? (
+                                            <>
+                                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                                <span>Initiating...</span>
+                                            </>
+                                        ) : (
+                                            'Pay Now'
+                                        )}
+                                    </span>
                                 </button>
                             )}
 
