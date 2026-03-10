@@ -30,7 +30,7 @@ export default function Home() {
     <main className="relative bg-white selection:bg-crimson selection:text-white overflow-hidden">
       <div className="noise-overlay" />
       <Navbar />
-      <div className="pt-20" id="tours">
+      <div className="pt-8" id="tours">
         <TourCards />
       </div>
       <ScrollToTop />
