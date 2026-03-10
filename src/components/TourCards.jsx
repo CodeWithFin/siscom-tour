@@ -100,19 +100,13 @@ export default function TourCards() {
                                 >
                                     {/* Column 1: Date/Time */}
                                     <div className="w-[25%]">
-                                        <div className="text-xl font-bold text-ink tracking-tight mb-1.5">{tour.day} {tour.month}</div>
-                                        <div className="text-[11px] text-ink/65 font-medium uppercase tracking-widest">
-                                            {tour.year} · {tour.time}
-                                        </div>
+                                        <div className="text-xl font-bold text-ink tracking-tight">{tour.day} {tour.month}</div>
                                     </div>
 
                                     {/* Column 2: Facility */}
                                     <div className="w-[40%] pr-10">
-                                        <div className="text-[17px] font-bold text-ink group-hover:text-crimson transition-colors mb-1.5 leading-tight">
+                                        <div className="text-[17px] font-bold text-ink group-hover:text-crimson transition-colors leading-tight">
                                             {tour.facility}
-                                        </div>
-                                        <div className="text-[10px] text-ink/65 font-semibold uppercase tracking-wider">
-                                            {tour.duration} SECURITY ACCESS
                                         </div>
                                     </div>
 
@@ -157,23 +151,16 @@ export default function TourCards() {
                                 <div className="flex justify-between items-start mb-6">
                                     <div>
                                         <div className="text-2xl font-bold text-ink tracking-tight">{tour.day} {tour.month}</div>
-                                        <div className="text-[10px] text-ink/60 font-semibold uppercase tracking-widest mt-1">
-                                            {tour.year} · {tour.time}
-                                        </div>
                                     </div>
                                     <div className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded ${tour.isLimited ? 'bg-crimson/5 text-crimson' : 'bg-gray-50 text-ink'}`}>
                                         {tour.availability}
                                     </div>
                                 </div>
 
-                                {/* Body: Facility & Campus */}
                                 <div className="space-y-4 mb-8">
                                     <div>
                                         <span className="text-[10px] font-bold uppercase tracking-wider text-crimson block mb-1">Infrastructure Campus</span>
                                         <div className="text-[18px] font-bold text-ink leading-tight">{tour.facility}</div>
-                                        <div className="text-[10px] text-ink/60 font-semibold uppercase tracking-widest mt-2">
-                                            {tour.duration} SECURITY ACCESS
-                                        </div>
                                     </div>
                                 </div>
 
