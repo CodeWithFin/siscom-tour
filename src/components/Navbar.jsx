@@ -122,7 +122,7 @@ export default function Navbar() {
                                 <Link
                                     href={isHome ? "#tours" : "/#tours"}
                                     onClick={scrollToTours}
-                                    className="block relative overflow-hidden bg-crimson text-white text-center text-sm font-black uppercase tracking-widest px-5 py-6 hover:bg-crimson-light transition-all"
+                                    className="block relative overflow-hidden bg-crimson text-white text-center text-xs font-black uppercase tracking-widest px-5 py-3 hover:bg-crimson-light transition-all"
                                 >
                                     <div className="absolute inset-0 bg-brand-stripes opacity-30" />
                                     <span className="relative z-10">Book tour</span>

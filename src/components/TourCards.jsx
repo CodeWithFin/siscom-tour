@@ -6,52 +6,44 @@ import { useRouter } from 'next/navigation';
 const tours = [
     {
         id: '01',
-        day: '14',
+        day: '26',
         month: 'MAR',
         year: '2026',
         time: '9:00 AM',
         facility: 'PAIX Nairobi — NBO1 Campus',
-        location: 'KASARANI, NAIROBI',
-        focus: 'INDIVIDUAL ACCESS',
         duration: '3 HOURS',
         availability: '5 SPOTS LEFT',
         isLimited: false
     },
     {
         id: '02',
-        day: '11',
+        day: '30',
         month: 'APR',
         year: '2026',
         time: '10:00 AM',
         facility: 'IX Africa — NBO1 Campus',
-        location: 'KAREN, NAIROBI',
-        focus: 'INVESTOR FOCUS',
         duration: '3.5 HOURS',
         availability: '12 SPOTS LEFT',
         isLimited: false
     },
     {
         id: '03',
-        day: '09',
+        day: '28',
         month: 'MAY',
         year: '2026',
         time: '9:00 AM',
         facility: 'iColo — NBO2 Campus',
-        location: 'WESTLANDS, NAIROBI',
-        focus: 'SME COLOCATION',
         duration: '2.5 HOURS',
         availability: '2 SPOTS LEFT',
         isLimited: true
     },
     {
         id: '04',
-        day: '23',
-        month: 'MAY',
+        day: '25',
+        month: 'JUN',
         year: '2026',
         time: '2:00 PM',
         facility: 'ADC — NBO1 Campus',
-        location: 'SAMEER PARK, NAIROBI',
-        focus: 'INDIVIDUAL ACCESS',
         duration: '2 HOURS',
         availability: '8 SPOTS LEFT',
         isLimited: false
@@ -90,12 +82,10 @@ export default function TourCards() {
                     <div className="min-w-[1200px] border border-gray-100 rounded-lg overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white">
                         {/* Table Header */}
                         <div className="bg-ink text-white flex items-center px-12 py-6 text-[10px] font-bold uppercase tracking-[0.15em]">
-                            <div className="w-[18%]">Session / Time</div>
-                            <div className="w-[25%]">Infrastructure Campus</div>
-                            <div className="w-[18%]">Location</div>
-                            <div className="w-[14%]">Focus Group</div>
-                            <div className="w-[10%]">Availability</div>
-                            <div className="w-[15%] text-right pr-16">Action</div>
+                            <div className="w-[25%]">Session / Time</div>
+                            <div className="w-[40%]">Infrastructure Campus</div>
+                            <div className="w-[15%]">Availability</div>
+                            <div className="w-[20%] text-right pr-16">Action</div>
                         </div>
 
                         {/* Table Body */}
@@ -109,7 +99,7 @@ export default function TourCards() {
                                     className="flex items-center px-12 py-12 hover:bg-gray-50/50 transition-all duration-300 group"
                                 >
                                     {/* Column 1: Date/Time */}
-                                    <div className="w-[18%]">
+                                    <div className="w-[25%]">
                                         <div className="text-xl font-bold text-ink tracking-tight mb-1.5">{tour.day} {tour.month}</div>
                                         <div className="text-[11px] text-ink/65 font-medium uppercase tracking-widest">
                                             {tour.year} · {tour.time}
@@ -117,7 +107,7 @@ export default function TourCards() {
                                     </div>
 
                                     {/* Column 2: Facility */}
-                                    <div className="w-[25%] pr-10">
+                                    <div className="w-[40%] pr-10">
                                         <div className="text-[17px] font-bold text-ink group-hover:text-crimson transition-colors mb-1.5 leading-tight">
                                             {tour.facility}
                                         </div>
@@ -126,29 +116,15 @@ export default function TourCards() {
                                         </div>
                                     </div>
 
-                                    {/* Column 3: Location */}
-                                    <div className="w-[18%]">
-                                        <div className="text-[13px] font-semibold text-ink uppercase tracking-wide">
-                                            {tour.location}
-                                        </div>
-                                    </div>
-
-                                    {/* Column 4: Focus */}
-                                    <div className="w-[14%]">
-                                        <div className="text-[11px] font-semibold text-ink/65 uppercase tracking-wide">
-                                            {tour.focus}
-                                        </div>
-                                    </div>
-
-                                    {/* Column 5: Availability */}
-                                    <div className="w-[10%]">
+                                    {/* Column 3: Availability */}
+                                    <div className="w-[15%]">
                                         <div className={`text-[13px] font-bold tracking-tight ${tour.isLimited ? 'text-crimson' : 'text-ink'}`}>
                                             {tour.availability}
                                         </div>
                                     </div>
 
-                                    {/* Column 6: Action */}
-                                    <div className="w-[15%] text-right pr-16">
+                                    {/* Column 4: Action */}
+                                    <div className="w-[20%] text-right pr-16">
                                         <button
                                             onClick={() => handleBookTour(tour)}
                                             className="relative overflow-hidden bg-crimson text-white text-[10px] font-bold uppercase tracking-[0.1em] px-10 py-5 rounded hover:bg-crimson-light transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-xl shadow-crimson/10 hover:translate-x-1"
@@ -195,16 +171,8 @@ export default function TourCards() {
                                     <div>
                                         <span className="text-[10px] font-bold uppercase tracking-wider text-crimson block mb-1">Infrastructure Campus</span>
                                         <div className="text-[18px] font-bold text-ink leading-tight">{tour.facility}</div>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50">
-                                        <div>
-                                            <span className="text-[9px] font-semibold uppercase tracking-widest text-ink/40 block mb-1">Location</span>
-                                            <div className="text-[11px] font-bold uppercase tracking-wider text-ink">{tour.location}</div>
-                                        </div>
-                                        <div>
-                                            <span className="text-[9px] font-semibold uppercase tracking-widest text-ink/40 block mb-1">Focus Group</span>
-                                            <div className="text-[11px] font-bold uppercase tracking-wider text-ink">{tour.focus}</div>
+                                        <div className="text-[10px] text-ink/60 font-semibold uppercase tracking-widest mt-2">
+                                            {tour.duration} SECURITY ACCESS
                                         </div>
                                     </div>
                                 </div>
