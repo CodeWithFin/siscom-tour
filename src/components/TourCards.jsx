@@ -71,7 +71,7 @@ export default function TourCards() {
     };
 
     return (
-        <section id="tours" className="py-24 bg-white">
+        <section id="tours" className="pt-16 pb-24 bg-white">
             <div className="max-w-screen-2xl mx-auto px-6">
                 <div className="mb-12">
                     <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-crimson mb-2 block">
