@@ -10,7 +10,7 @@ const tours = [
         month: 'MAR',
         year: '2026',
         time: '9:00 AM',
-        facility: 'PAIX Nairobi — NBO1 Campus',
+        facility: 'PAIX Nairobi',
         duration: '3 HOURS',
         availability: '5 SPOTS LEFT',
         isLimited: false
@@ -21,7 +21,7 @@ const tours = [
         month: 'APR',
         year: '2026',
         time: '10:00 AM',
-        facility: 'IX Africa — NBO1 Campus',
+        facility: 'IX Africa',
         duration: '3.5 HOURS',
         availability: '12 SPOTS LEFT',
         isLimited: false
@@ -32,7 +32,7 @@ const tours = [
         month: 'MAY',
         year: '2026',
         time: '9:00 AM',
-        facility: 'iColo — NBO2 Campus',
+        facility: 'iColo',
         duration: '2.5 HOURS',
         availability: '2 SPOTS LEFT',
         isLimited: true
@@ -43,7 +43,7 @@ const tours = [
         month: 'JUN',
         year: '2026',
         time: '2:00 PM',
-        facility: 'ADC — NBO1 Campus',
+        facility: 'ADC',
         duration: '2 HOURS',
         availability: '8 SPOTS LEFT',
         isLimited: false
@@ -83,7 +83,7 @@ export default function TourCards() {
                         {/* Table Header */}
                         <div className="bg-ink text-white flex items-center px-12 py-6 text-[10px] font-bold uppercase tracking-[0.15em]">
                             <div className="w-[25%]">Session / Time</div>
-                            <div className="w-[40%]">Infrastructure Campus</div>
+                            <div className="w-[40%]">Data Center Facility</div>
                             <div className="w-[15%]">Availability</div>
                             <div className="w-[20%] text-right pr-16">Action</div>
                         </div>
@@ -159,7 +159,7 @@ export default function TourCards() {
 
                                 <div className="space-y-4 mb-8">
                                     <div>
-                                        <span className="text-[10px] font-bold uppercase tracking-wider text-crimson block mb-1">Infrastructure Campus</span>
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-crimson block mb-1">Data Center Facility</span>
                                         <div className="text-[18px] font-bold text-ink leading-tight">{tour.facility}</div>
                                     </div>
                                 </div>
