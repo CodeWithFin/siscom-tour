@@ -2,9 +2,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-crimson: #EC008C;
-  --color-crimson-light: #FF3BB1;
-  --color-crimson-dark: #C40075;
+  --color-crimson: #DE3163;
+  --color-crimson-light: #FF5D8E;
+  --color-crimson-dark: #B32750;
   --color-ink: #0F0D0A;
   --color-ink2: #1E1B16;
   --color-mid: #6B6457;

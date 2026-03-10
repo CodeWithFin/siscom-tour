@@ -13,6 +13,7 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const pathname = usePathname();
     const isHome = pathname === '/';
+    const isCheckout = pathname === '/checkout';
 
     useEffect(() => {
         setPrevScrollPos(window.scrollY);
@@ -70,23 +71,25 @@ export default function Navbar() {
 
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-10">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2 }}
-                    >
-                        <Link
-                            href={isHome ? "#tours" : "/#tours"}
-                            onClick={scrollToTours}
-                            className="group relative overflow-hidden flex items-center gap-2 bg-crimson text-white text-[10px] font-black tracking-[0.1em] uppercase px-8 py-4 hover:bg-crimson-light transition-all hover:-translate-y-0.5 shadow-xl shadow-crimson/10"
+                    {!isCheckout && (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.2 }}
                         >
-                            <div className="absolute inset-0 bg-brand-stripes opacity-30" />
-                            <span className="relative z-10 flex items-center gap-2">
-                                Book tour
-                                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                            </span>
-                        </Link>
-                    </motion.div>
+                            <Link
+                                href={isHome ? "#tours" : "/#tours"}
+                                onClick={scrollToTours}
+                                className="group relative overflow-hidden flex items-center gap-2 bg-crimson text-white text-[10px] font-black tracking-[0.1em] uppercase px-8 py-4 hover:bg-crimson-light transition-all hover:-translate-y-0.5 shadow-xl shadow-crimson/10"
+                            >
+                                <div className="absolute inset-0 bg-brand-stripes opacity-30" />
+                                <span className="relative z-10 flex items-center gap-2">
+                                    Book tour
+                                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                </span>
+                            </Link>
+                        </motion.div>
+                    )}
                 </div>
 
                 {/* Mobile Menu Toggle */}
@@ -110,20 +113,22 @@ export default function Navbar() {
                         exit={{ opacity: 0, y: -20 }}
                         className="md:hidden absolute top-full left-0 right-0 glass px-6 py-8 space-y-6 shadow-2xl overflow-hidden"
                     >
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                        >
-                            <Link
-                                href={isHome ? "#tours" : "/#tours"}
-                                onClick={scrollToTours}
-                                className="block relative overflow-hidden bg-crimson text-white text-center text-sm font-black uppercase tracking-widest px-5 py-6 hover:bg-crimson-light transition-all"
+                        {!isCheckout && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
                             >
-                                <div className="absolute inset-0 bg-brand-stripes opacity-30" />
-                                <span className="relative z-10">Book tour</span>
-                            </Link>
-                        </motion.div>
+                                <Link
+                                    href={isHome ? "#tours" : "/#tours"}
+                                    onClick={scrollToTours}
+                                    className="block relative overflow-hidden bg-crimson text-white text-center text-sm font-black uppercase tracking-widest px-5 py-6 hover:bg-crimson-light transition-all"
+                                >
+                                    <div className="absolute inset-0 bg-brand-stripes opacity-30" />
+                                    <span className="relative z-10">Book tour</span>
+                                </Link>
+                            </motion.div>
+                        )}
                     </motion.div>
                 )}
             </AnimatePresence>

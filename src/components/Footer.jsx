@@ -8,7 +8,7 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     {/* Brand Col */}
                     <div className="col-span-1 md:col-span-2">
-                        <Logo className="h-8 mb-6" color="#EC008C" />
+                        <Logo className="h-8 mb-6" color="#DE3163" />
                         <p className="text-mid text-sm leading-relaxed max-w-sm">
                             Siscom is driving the future of African digital infrastructure. Our tours provide transparent access to the continent's premier data center assets.
                         </p>

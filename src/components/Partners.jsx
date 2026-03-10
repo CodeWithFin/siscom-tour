@@ -45,7 +45,7 @@ export default function Partners() {
                     {doubled.map((partner, i) => (
                         <motion.div
                             key={i}
-                            whileHover={{ scale: 1.1, color: "#EC008C" }}
+                            whileHover={{ scale: 1.1, color: "#DE3163" }}
                             transition={{ duration: 0.3 }}
                             className="mx-16 text-2xl md:text-5xl font-black tracking-tighter text-gray-200 cursor-default uppercase transition-colors"
                         >
