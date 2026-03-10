@@ -24,7 +24,7 @@ export default function AdminLogin() {
                             id="password"
                             name="password"
                             required
-                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all"
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#DE3163]/20 focus:border-[#DE3163] transition-all"
                             placeholder="Enter admin password"
                         />
                     </div>
@@ -38,7 +38,7 @@ export default function AdminLogin() {
                     <button
                         type="submit"
                         disabled={isPending}
-                        className="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 text-white rounded-xl font-medium transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full py-3 px-4 bg-[#DE3163] hover:bg-[#c92a58] text-white rounded-xl font-medium transition-all shadow-md shadow-[#DE3163]/20 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                         {isPending ? 'Authenticating...' : 'Sign In'}
                     </button>

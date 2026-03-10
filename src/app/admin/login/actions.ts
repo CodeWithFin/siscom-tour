@@ -23,3 +23,9 @@ export async function loginAction(prevState: any, formData: FormData) {
         return { error: 'Invalid password' };
     }
 }
+
+export async function logoutAction() {
+    const cookieStore = await cookies();
+    cookieStore.delete('admin_auth');
+    redirect('/admin/login');
+}
