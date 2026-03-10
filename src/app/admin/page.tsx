@@ -1,6 +1,7 @@
 import pool from '@/lib/db';
 import { redirect } from 'next/navigation';
 import { logoutAction } from '@/app/admin/login/actions';
+import ExportButton from './ExportButton';
 import { LogOut, Users, Ticket, CreditCard, ChevronRight } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -46,12 +47,15 @@ export default async function AdminDashboard() {
                         <p className="text-gray-500 ml-5">Manage tour bookings and payments overview</p>
                     </div>
 
-                    <form action={logoutAction}>
-                        <button type="submit" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 hover:border-[#DE3163] hover:text-[#DE3163] text-gray-700 font-medium rounded-xl transition-all shadow-sm group">
-                            <LogOut className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                            Log Out
-                        </button>
-                    </form>
+                    <div className="flex items-center gap-3">
+                        <ExportButton data={payments} />
+                        <form action={logoutAction}>
+                            <button type="submit" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 hover:border-[#DE3163] hover:text-[#DE3163] text-gray-700 font-medium rounded-xl transition-all shadow-sm group">
+                                <LogOut className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                                Log Out
+                            </button>
+                        </form>
+                    </div>
                 </div>
 
                 {/* Data Table Section */}
@@ -142,11 +146,11 @@ export default async function AdminDashboard() {
                                             </td>
                                             <td className="px-6 py-5">
                                                 <span className={`px-2.5 py-1 rounded-full text-xs font-medium border flex w-max items-center gap-1.5 bg-white ${payment.status === 'success' ? 'text-emerald-700 border-emerald-200' :
-                                                        payment.status === 'pending' ? 'text-amber-700 border-amber-200' :
-                                                            'text-red-700 border-red-200'
+                                                    payment.status === 'pending' ? 'text-amber-700 border-amber-200' :
+                                                        'text-red-700 border-red-200'
                                                     }`}>
                                                     <span className={`w-1.5 h-1.5 rounded-full ${payment.status === 'success' ? 'bg-emerald-500' :
-                                                            payment.status === 'pending' ? 'bg-amber-500' : 'bg-red-500'
+                                                        payment.status === 'pending' ? 'bg-amber-500' : 'bg-red-500'
                                                         }`}></span>
                                                     {payment.status}
                                                 </span>
