@@ -37,6 +37,9 @@ export default function Checkout() {
     const urlQuantity = parseInt(searchParams.get('quantity') || '1');
     const urlIsClubMember = searchParams.get('clubMember') === 'true';
     const urlClubId = searchParams.get('clubId') || '';
+    const urlFacility = searchParams.get('facility') || '';
+    const urlDay = searchParams.get('day') || '';
+    const urlMonth = searchParams.get('month') || '';
 
     // State for checkout - verbatim from user snippet
     const [quantity, setQuantity] = useState(urlQuantity);
@@ -152,10 +155,10 @@ export default function Checkout() {
                         <div className="bg-crimson relative overflow-hidden text-white text-center py-5">
                             <div className="absolute inset-0 bg-brand-stripes opacity-30" />
                             <h1 className="relative z-10 text-xl font-bold uppercase tracking-tight">
-                                DC Tour Checkout
+                                {urlFacility ? `${urlFacility} Tour` : 'DC Tour Checkout'}
                             </h1>
                             <p className="relative z-10 text-white/80 text-[10px] mt-0.5 font-medium tracking-wide">
-                                Individual Access
+                                {urlDay} {urlMonth} — Individual Access
                             </p>
                         </div>
 
@@ -165,13 +168,19 @@ export default function Checkout() {
                             <div className="bg-gray-50 rounded-lg p-2.5 border">
                                 <h3 className="text-[11px] font-bold text-gray-900 mb-1 uppercase tracking-wider">Order Summary</h3>
                                 <div className="space-y-0.5 text-[12px]">
-                                    <div className="flex justify-between">
-                                        <span>Ticket Type:</span>
-                                        <span className="font-medium text-right">
-                                            Individual Ticket
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
+                                    {urlFacility && (
+                                        <div className="flex justify-between">
+                                            <span>Facility:</span>
+                                            <span className="font-bold text-ink">{urlFacility}</span>
+                                        </div>
+                                    )}
+                                    {urlDay && (
+                                        <div className="flex justify-between">
+                                            <span>Date:</span>
+                                            <span className="font-bold text-ink">{urlDay} {urlMonth} 2026</span>
+                                        </div>
+                                    )}
+                                    <div className="flex justify-between items-center py-1">
                                         <span>Quantity:</span>
                                         <div className="flex items-center gap-2">
                                             <button
@@ -193,7 +202,7 @@ export default function Checkout() {
                                         <span>Unit Price:</span>
                                         <span>KES 2,600</span>
                                     </div>
-                                    <div className="border-t pt-1 flex justify-between font-bold text-sm">
+                                    <div className="border-t pt-1 mt-1 flex justify-between font-bold text-sm">
                                         <span>Total:</span>
                                         <span className="text-crimson">KES {totalAmount.toLocaleString()}</span>
                                     </div>
@@ -210,9 +219,9 @@ export default function Checkout() {
                                     onClick={() => setShowInterests(!showInterests)}
                                     className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg border border-gray-300 bg-white hover:border-crimson transition-all text-left"
                                 >
-                                    <span className={`text-[12px] ${interests.length > 0 ? 'text-ink' : 'text-gray-500'}`}>
+                                    <span className={`text-[12px] truncate pr-2 ${interests.length > 0 ? 'text-ink font-medium' : 'text-gray-500'}`}>
                                         {interests.length > 0
-                                            ? `${interests.length} selected`
+                                            ? interests.join(", ")
                                             : "Select..."}
                                     </span>
                                     <ChevronDown className={`w-3 h-3 text-gray-400 transition-transform ${showInterests ? 'rotate-180' : ''}`} />

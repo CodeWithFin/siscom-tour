@@ -57,7 +57,10 @@ export default function TourCards() {
         const params = new URLSearchParams({
             ticket: 'individual',
             amount: '2600',
-            quantity: '1'
+            quantity: '1',
+            facility: tour.facility,
+            day: tour.day,
+            month: tour.month
         });
         router.push(`/checkout?${params.toString()}`);
     };
