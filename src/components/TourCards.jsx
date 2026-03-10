@@ -56,7 +56,7 @@ export default function TourCards() {
     const handleBookTour = (tour) => {
         const params = new URLSearchParams({
             ticket: 'individual',
-            amount: '2600',
+            amount: '1',
             quantity: '1',
             facility: tour.facility,
             day: tour.day,

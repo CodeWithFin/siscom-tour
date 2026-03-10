@@ -5,12 +5,12 @@ import { ChevronDown, Check } from "lucide-react";
 import Navbar from './Navbar';
 
 // Types and helper functions from the user's requested design pattern
-async function initiateMpesaPayment({ email, phoneNumber, amount, eventType, isClubMember, ticketType, quantity }) {
+async function initiateMpesaPayment({ email, phoneNumber, name, amount, eventType, isClubMember, ticketType, quantity, facility, tourDate, interests }) {
     try {
         const res = await fetch("/api/mpesa/initiate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, phoneNumber, amount, eventType, isClubMember, ticketType, quantity }),
+            body: JSON.stringify({ email, phoneNumber, name, amount, eventType, isClubMember, ticketType, quantity, facility, tourDate, interests }),
         });
         return await res.json();
     } catch (e) {
@@ -33,7 +33,7 @@ export default function Checkout() {
 
     // Get URL parameters
     const urlTicketType = searchParams.get('ticket') || 'individual';
-    const urlAmount = parseInt(searchParams.get('amount') || '2600');
+    const urlAmount = parseInt(searchParams.get('amount') || '1');
     const urlQuantity = parseInt(searchParams.get('quantity') || '1');
     const urlIsClubMember = searchParams.get('clubMember') === 'true';
     const urlClubId = searchParams.get('clubId') || '';
@@ -57,7 +57,7 @@ export default function Checkout() {
 
     // Update total when quantity changes
     useEffect(() => {
-        setTotalAmount(2600 * quantity);
+        setTotalAmount(1 * quantity);
     }, [quantity]);
 
     // Poll payment status - verbatim from user snippet
@@ -114,15 +114,18 @@ export default function Checkout() {
         }
 
         // Try real API call first
+        const tourDate = urlDay && urlMonth ? `${urlDay} ${urlMonth} 2026` : '';
         const res = await initiateMpesaPayment({
             email,
             phoneNumber,
             name,
-            interests,
+            interests: interests.join(', '),
             amount: totalAmount,
-            eventType: '2600',
+            eventType: '1',
             ticketType: 'individual',
-            quantity
+            quantity,
+            facility: urlFacility,
+            tourDate,
         });
 
         if (res.success) {
@@ -200,7 +203,7 @@ export default function Checkout() {
                                     </div>
                                     <div className="flex justify-between">
                                         <span>Unit Price:</span>
-                                        <span>KES 2,600</span>
+                                        <span>KES {(totalAmount / quantity).toLocaleString()}</span>
                                     </div>
                                     <div className="border-t pt-1 mt-1 flex justify-between font-bold text-sm">
                                         <span>Total:</span>
@@ -310,7 +313,10 @@ export default function Checkout() {
                                     </div>
                                     <button
                                         onClick={resetPayment}
-                                        className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-4 px-6 rounded-lg transition-colors duration-200"
+                                        className="w-full text-white font-bold py-4 px-6 rounded-lg transition-colors duration-200"
+                                        style={{ backgroundColor: '#DE3163' }}
+                                        onMouseEnter={e => e.currentTarget.style.backgroundColor = '#c4294f'}
+                                        onMouseLeave={e => e.currentTarget.style.backgroundColor = '#DE3163'}
                                     >
                                         Make Another Payment
                                     </button>

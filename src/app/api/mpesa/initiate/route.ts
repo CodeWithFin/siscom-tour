@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { MpesaService } from '@/lib/mpesa';
+import { upsertPayment } from '@/lib/db';
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, phoneNumber, amount, eventType, isClubMember, ticketType, quantity, name } = await request.json();
+        const { email, phoneNumber, amount, eventType, isClubMember, ticketType, quantity, name, facility, tourDate, interests } = await request.json();
 
         // Validate input
         if (!email || !phoneNumber || !amount || !ticketType || !quantity) {
@@ -13,9 +14,9 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Validate phone number format
-        const phoneRegex = /^(?:254|0)[17]\d{8}$/;
-        if (!phoneRegex.test(phoneNumber)) {
+        // Validate phone number format (all valid Kenyan mobile numbers)
+        const normalizedPhone = phoneNumber.replace(/\s+/g, '');
+        if (!/^(?:2547|2541|07|01)\d{8}$/.test(normalizedPhone)) {
             return NextResponse.json(
                 { error: 'Invalid phone number format. Please use 07xx or 2547xx.' },
                 { status: 400 }
@@ -46,23 +47,23 @@ export async function POST(request: NextRequest) {
 
             if (stkResponse.ResponseCode === '0') {
                 try {
-                    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-                    await fetch(`${appUrl}/api/mpesa/status`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            checkoutRequestId: stkResponse.CheckoutRequestID,
-                            status: 'pending',
-                            ticketType,
-                            quantity,
-                            isClubMember,
-                            email,
-                            name,
-                            amount: Number(amount)
-                        })
+                    await upsertPayment({
+                        checkoutRequestId: stkResponse.CheckoutRequestID,
+                        merchantRequestId: stkResponse.MerchantRequestID,
+                        status: 'pending',
+                        ticketType,
+                        quantity: Number(quantity),
+                        isClubMember,
+                        email,
+                        name,
+                        phoneNumber,
+                        amount: Number(amount),
+                        facility,
+                        tourDate,
+                        interests,
                     });
                 } catch (error) {
-                    console.error('Failed to set initial payment status:', error);
+                    console.error('Failed to save initial payment status to DB:', error);
                 }
 
                 return NextResponse.json({

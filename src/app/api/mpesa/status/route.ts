@@ -1,16 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const paymentStatuses = new Map<string, {
-    status: 'pending' | 'success' | 'failed',
-    timestamp: number,
-    amount?: number,
-    mpesaRef?: string,
-    ticketType?: 'individual' | 'corporate',
-    quantity?: number,
-    isClubMember?: boolean,
-    email?: string,
-    name?: string
-}>();
+import { upsertPayment, getPayment } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
@@ -20,56 +9,52 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Missing checkoutRequestId' }, { status: 400 });
     }
 
-    const status = paymentStatuses.get(checkoutRequestId);
+    const row = await getPayment(checkoutRequestId);
 
-    if (!status) {
+    if (!row) {
         return NextResponse.json({
             status: 'pending',
             message: 'Payment status not found'
         });
     }
 
-    // Clean up old entries (older than 10 minutes)
-    if (Date.now() - status.timestamp > 10 * 60 * 1000) {
-        paymentStatuses.delete(checkoutRequestId);
-        return NextResponse.json({
-            status: 'failed',
-            message: 'Payment timeout'
-        });
-    }
-
     return NextResponse.json({
-        status: status.status,
-        amount: status.amount,
-        mpesaRef: status.mpesaRef,
-        ticketType: status.ticketType,
-        quantity: status.quantity,
-        isClubMember: status.isClubMember,
-        email: status.email,
-        name: status.name,
-        message: status.status === 'success' ? 'Payment completed successfully' :
-            status.status === 'failed' ? 'Payment failed' : 'Payment in progress'
+        status: row.status,
+        amount: row.amount,
+        mpesaRef: row.mpesa_ref,
+        ticketType: row.ticket_type,
+        quantity: row.quantity,
+        isClubMember: row.is_club_member,
+        email: row.email,
+        name: row.name,
+        phoneNumber: row.phone_number,
+        message: row.status === 'success' ? 'Payment completed successfully' :
+            row.status === 'failed' ? 'Payment failed' : 'Payment in progress'
     });
 }
 
 export async function POST(request: NextRequest) {
-    const { checkoutRequestId, status, amount, mpesaRef, ticketType, quantity, isClubMember, email, name } = await request.json();
+    const { checkoutRequestId, merchantRequestId, status, amount, mpesaRef, ticketType, quantity, isClubMember, email, name, phoneNumber, failureReason } = await request.json();
 
     if (!checkoutRequestId || !status) {
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    paymentStatuses.set(checkoutRequestId, {
+    await upsertPayment({
+        checkoutRequestId,
+        merchantRequestId,
         status,
-        timestamp: Date.now(),
         amount,
         mpesaRef,
         ticketType,
         quantity,
         isClubMember,
         email,
-        name
+        name,
+        phoneNumber,
+        failureReason,
     });
 
     return NextResponse.json({ message: 'Status updated' });
 }
+

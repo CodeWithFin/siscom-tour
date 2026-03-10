@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { MpesaService } from '@/lib/mpesa';
 import { TililSMSService } from '@/lib/tilil-sms';
+import { upsertPayment, getPayment } from '@/lib/db';
 
 export async function POST(request: NextRequest) {
     try {
@@ -9,7 +10,6 @@ export async function POST(request: NextRequest) {
 
         const parsedCallback = MpesaService.parseCallbackData(callbackData);
         const sms = new TililSMSService();
-        const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
         if (parsedCallback.success) {
             console.log('Payment completed successfully:', {
@@ -20,70 +20,30 @@ export async function POST(request: NextRequest) {
             });
 
             try {
-                // Fetch existing status to get original payment details (ticketType, quantity, isClubMember)
-                const statusResponse = await fetch(`${appUrl}/api/mpesa/status?checkoutRequestId=${parsedCallback.checkoutRequestId}`);
-                const existingStatus = await statusResponse.json();
+                // Get existing row to preserve user details saved at initiate
+                const existing = await getPayment(parsedCallback.checkoutRequestId);
+                console.log('Existing payment record:', existing);
 
-                console.log('Fetched existing status data:', existingStatus);
-
-                // Update with full data
-                await fetch(`${appUrl}/api/mpesa/status`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        checkoutRequestId: parsedCallback.checkoutRequestId,
-                        status: 'success',
-                        amount: parsedCallback.amount,
-                        mpesaRef: parsedCallback.mpesaReceiptNumber,
-                        ticketType: existingStatus.ticketType,
-                        quantity: existingStatus.quantity,
-                        isClubMember: existingStatus.isClubMember,
-                        email: existingStatus.email,
-                        name: existingStatus.name
-                    })
+                // Update DB with success + mpesa receipt
+                await upsertPayment({
+                    checkoutRequestId: parsedCallback.checkoutRequestId,
+                    status: 'success',
+                    amount: Number(parsedCallback.amount),
+                    mpesaRef: parsedCallback.mpesaReceiptNumber,
+                    phoneNumber: parsedCallback.phoneNumber?.toString() || existing?.phone_number,
                 });
 
                 // Send confirmation SMS
-                if (parsedCallback.phoneNumber || existingStatus.phoneNumber) {
-                    const finalPhone = (parsedCallback.phoneNumber || existingStatus.phoneNumber).toString();
+                const finalPhone = parsedCallback.phoneNumber?.toString() || existing?.phone_number;
+                if (finalPhone) {
                     const message = sms.generatePaymentConfirmationMessage(
                         Number(parsedCallback.amount),
                         parsedCallback.mpesaReceiptNumber,
-                        existingStatus.ticketType || 'individual',
-                        existingStatus.quantity || 1
+                        existing?.ticket_type || 'individual',
+                        existing?.quantity || 1
                     );
-
                     await sms.sendSMS(finalPhone, message);
-                    console.log(`Confirmation SMS sent to ${finalPhone}: ${message}`);
-                }
-
-                // Record to Google Sheets
-                const googleSheetUrl = process.env.GOOGLE_SHEET_URL;
-                if (googleSheetUrl) {
-                    try {
-                        const payload = {
-                            timestamp: new Date().toISOString(),
-                            name: existingStatus.name || 'N/A',
-                            email: existingStatus.email || 'N/A',
-                            phoneNumber: parsedCallback.phoneNumber || existingStatus.phoneNumber || 'N/A',
-                            amount: parsedCallback.amount,
-                            mpesaReceipt: parsedCallback.mpesaReceiptNumber,
-                            ticketType: existingStatus.ticketType || 'individual',
-                            quantity: existingStatus.quantity || 1,
-                            status: 'success',
-                            checkoutRequestId: parsedCallback.checkoutRequestId
-                        };
-
-                        await fetch(googleSheetUrl, {
-                            method: 'POST',
-                            mode: 'no-cors',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-                        console.log('Payment recorded to Google Sheets');
-                    } catch (sheetError) {
-                        console.error('Failed to record to Google Sheets:', sheetError);
-                    }
+                    console.log(`Confirmation SMS sent to ${finalPhone}`);
                 }
             } catch (error) {
                 console.error('Failed to update status and send SMS:', error);
@@ -97,55 +57,18 @@ export async function POST(request: NextRequest) {
             });
 
             try {
-                const statusResponse = await fetch(`${appUrl}/api/mpesa/status?checkoutRequestId=${parsedCallback.checkoutRequestId}`);
-                const existingStatus = await statusResponse.json();
-
-                await fetch(`${appUrl}/api/mpesa/status`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        checkoutRequestId: parsedCallback.checkoutRequestId,
-                        status: 'failed',
-                        ticketType: existingStatus.ticketType,
-                        quantity: existingStatus.quantity,
-                        isClubMember: existingStatus.isClubMember
-                    })
+                await upsertPayment({
+                    checkoutRequestId: parsedCallback.checkoutRequestId,
+                    status: 'failed',
+                    failureReason: parsedCallback.message || 'Unknown',
                 });
 
                 // Optionally send a failure SMS if possible
-                if (parsedCallback.phoneNumber || existingStatus.phoneNumber) {
-                    const finalPhone = (parsedCallback.phoneNumber || existingStatus.phoneNumber).toString();
+                const existing = await getPayment(parsedCallback.checkoutRequestId);
+                const finalPhone = parsedCallback.phoneNumber?.toString() || existing?.phone_number;
+                if (finalPhone) {
                     const failureMessage = sms.generatePaymentFailedMessage();
                     await sms.sendSMS(finalPhone, failureMessage);
-                }
-
-                // Record to Google Sheets (Failed attempt)
-                const googleSheetUrl = process.env.GOOGLE_SHEET_URL;
-                if (googleSheetUrl) {
-                    try {
-                        const payload = {
-                            timestamp: new Date().toISOString(),
-                            name: existingStatus.name || 'N/A',
-                            email: existingStatus.email || 'N/A',
-                            phoneNumber: parsedCallback.phoneNumber || existingStatus.phoneNumber || 'N/A',
-                            amount: existingStatus.amount || 'N/A',
-                            mpesaReceipt: 'FAILED',
-                            ticketType: existingStatus.ticketType || 'individual',
-                            quantity: existingStatus.quantity || 1,
-                            status: 'failed',
-                            checkoutRequestId: parsedCallback.checkoutRequestId,
-                            failureReason: parsedCallback.message || 'Unknown'
-                        };
-
-                        await fetch(googleSheetUrl, {
-                            method: 'POST',
-                            mode: 'no-cors',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-                    } catch (sheetError) {
-                        console.error('Failed to record failure to Google Sheets:', sheetError);
-                    }
                 }
             } catch (error) {
                 console.error('Failed to update failure status:', error);

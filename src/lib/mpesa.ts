@@ -1,5 +1,3 @@
-import crypto from 'crypto';
-
 interface MpesaAccessTokenResponse {
     access_token: string;
     expires_in: string;
