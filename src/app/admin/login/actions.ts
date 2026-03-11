@@ -5,7 +5,11 @@ import { redirect } from 'next/navigation';
 
 export async function loginAction(prevState: any, formData: FormData) {
     const password = formData.get('password');
-    const validPassword = process.env.ADMIN_PASSWORD || 'admin_secret_pass';
+    const validPassword = process.env.ADMIN_PASSWORD;
+
+    if (!validPassword) {
+        throw new Error('ADMIN_PASSWORD environment variable is not configured.');
+    }
 
     if (password === validPassword) {
         // Set an HTTP-only cookie to mark the user as authenticated
